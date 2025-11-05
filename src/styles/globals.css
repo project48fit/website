@@ -1,0 +1,43 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #050506;
+  --bg-soft: #0C0D10;
+  --bg-surface: #14161A;
+  --text: #F5F6F7;
+  --muted: #9EA3AE;
+  --accent: #F2EDE0;
+  --signal: #F2503A;
+}
+html, body, #__next {
+  height: 100%;
+  background: linear-gradient(180deg, rgba(5,5,6,1) 0%, rgba(12,13,16,1) 40%, rgba(20,22,26,1) 100%);
+  color: var(--text);
+  font-family: "Inter", "Helvetica Neue", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+@font-face {
+  font-family: "EngraversOldEnglish";
+  src: url("/fonts/engravers-old-english.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  color-scheme: dark;
+}
+
+.btn-primary {
+  @apply inline-flex items-center justify-center px-7 py-3 rounded-full bg-brand-accent text-[#050506] text-sm font-semibold uppercase tracking-[0.2em] hover:bg-white transition-shadow shadow-[0_14px_40px_-20px_rgba(242,237,224,0.8)];
+}
+.btn-secondary {
+  @apply inline-flex items-center justify-center px-7 py-3 rounded-full border border-white/20 text-white text-sm uppercase tracking-[0.2em] hover:border-white/40 hover:bg-white/5 transition;
+}
+.container { @apply max-w-6xl mx-auto px-5; }
+.muted { color: var(--muted); }
+.card {
+  @apply rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm;
+}

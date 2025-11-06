@@ -45,14 +45,12 @@ export default function About() {
             {
               name: 'Birk',
               img: '/assets/images/team_birk.JPEG',
-              caption: '18-week recomposition · +35 lb squat · -9% body fat',
-              bio: 'Head coach and founder. Birk specializes in strength periodization and habit systems that keep busy professionals progressing without burnout.'
+              bio: 'Birk Hanson has been training clients since 2023. He will handle all business operations and be your point of contact for onboarding.'
             },
             {
               name: 'Caleb',
               img: '/assets/images/team_caleb.JPEG',
-              caption: 'State podium finish · 1425 lb total · dialed-in nutrition',
-              bio: 'Performance coach focused on competition prep and nutrition strategy. Caleb blends data with on-platform experience to dial-in every phase.'
+              bio: 'Caleb Thompson is a certified trainer & nutritionist. He has been training since 2022. Caleb will build out your exercise and meal plans. You can expect weekly check-ins with Caleb.'
             }
           ].map((athlete) => (
             <div
@@ -73,9 +71,6 @@ export default function About() {
                     <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
                     <div className="absolute inset-x-0 bottom-0 p-6">
                       <span className="eyebrow text-white/70">{athlete.name}</span>
-                      <p className="text-white text-sm mt-2 leading-relaxed">
-                        {athlete.caption}
-                      </p>
                     </div>
                   </div>
                 </div>

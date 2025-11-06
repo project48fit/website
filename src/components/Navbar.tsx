@@ -20,8 +20,7 @@ export default function Navbar() {
         </Link>
         <div className="hidden lg:flex items-center gap-10 text-[0.65rem] text-white/80">
           <Link href="/about" className="hover:text-white transition">About</Link>
-          <Link href="/coaching" className="hover:text-white transition">Coaching</Link>
-          <Link href="/resources" className="hover:text-white transition">Resources</Link>
+          <Link href="/coaching" className="hover:text-white transition">Pricing</Link>
           <Link href="/apply" className="btn-primary text-[0.6rem] hover:no-underline">Apply</Link>
         </div>
         <Link href="/apply" className="btn-primary lg:hidden text-[0.55rem]">

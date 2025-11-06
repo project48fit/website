@@ -3,8 +3,7 @@ import Image from 'next/image';
 
 const NAV_LINKS = [
   { label: 'About', href: '/about' },
-  { label: 'Coaching', href: '/coaching' },
-  { label: 'Resources', href: '/resources' },
+  { label: 'Pricing', href: '/coaching' },
   { label: 'Apply', href: '/apply' }
 ];
 

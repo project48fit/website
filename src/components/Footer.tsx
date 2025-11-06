@@ -21,13 +21,13 @@ export default function Footer() {
   return (
     <footer className="border-t border-white/10 bg-black/50 backdrop-blur">
       <div className="container py-12 flex flex-col gap-12 lg:flex-row lg:items-start lg:justify-between">
-        <div className="inline-flex items-center overflow-hidden rounded-3xl border border-white/10 bg-brand-accent px-8 py-5 shadow-[0_20px_45px_-25px_rgba(242,237,224,0.9)]">
+        <div className="inline-flex items-center overflow-hidden rounded-[2.5rem] border border-white/10 bg-brand-accent px-12 py-6 shadow-[0_24px_55px_-30px_rgba(242,237,224,0.9)]">
           <Image
             src="/assets/images/1.png"
             alt="project."
-            width={180}
-            height={60}
-            className="h-16 w-auto object-contain"
+            width={240}
+            height={80}
+            className="h-20 w-auto object-contain"
           />
         </div>
 

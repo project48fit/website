@@ -20,15 +20,15 @@ export default function Coaching() {
           </p>
           <ul className="mt-6 space-y-3 text-sm text-white/90">
             <li className="flex items-start gap-3">
-              <span className="mt-1 h-2 w-2 rounded-full bg-brand-signal" />
+              <span className="mt-1 h-2 w-2 rounded-full bg-brand-accent" />
               <span>Fully custom periodized training with RPE, tempo, and accessory detail.</span>
             </li>
             <li className="flex items-start gap-3">
-              <span className="mt-1 h-2 w-2 rounded-full bg-brand-signal" />
+              <span className="mt-1 h-2 w-2 rounded-full bg-brand-accent" />
               <span>Weekly video check-ins with movement review and adjustments.</span>
             </li>
             <li className="flex items-start gap-3">
-              <span className="mt-1 h-2 w-2 rounded-full bg-brand-signal" />
+              <span className="mt-1 h-2 w-2 rounded-full bg-brand-accent" />
               <span>Unlimited chat support inside our coaching platform.</span>
             </li>
           </ul>

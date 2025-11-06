@@ -21,7 +21,7 @@ export default function Footer() {
   return (
     <footer className="border-t border-white/10 bg-black/50 backdrop-blur">
       <div className="container px-6 md:px-8 py-12 flex flex-col gap-12 lg:flex-row lg:items-start lg:justify-between">
-        <div className="inline-flex items-center justify-center overflow-hidden rounded-[2.5rem] border border-white/10 bg-brand-accent px-8 py-4 shadow-[0_24px_55px_-30px_rgba(242,237,224,0.9)] sm:px-12 sm:py-6">
+        <div className="inline-flex items-center justify-center overflow-hidden rounded-[2.25rem] border border-white/10 bg-brand-accent px-8 py-3 shadow-[0_24px_55px_-30px_rgba(242,237,224,0.9)] sm:px-12 sm:py-4">
           <Image
             src="/assets/images/1.png"
             alt="project."

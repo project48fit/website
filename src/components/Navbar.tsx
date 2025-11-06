@@ -4,7 +4,7 @@ import Link from 'next/link';
 export default function Navbar() {
   return (
     <header className="fixed inset-x-0 top-0 z-50 bg-gradient-to-b from-black/85 via-black/65 to-transparent backdrop-blur">
-      <nav className="container flex h-20 items-center justify-between text-sm uppercase tracking-[0.25em]">
+      <nav className="container flex h-20 items-center justify-between text-sm uppercase tracking-[0.25em] px-6 md:px-8">
         <Link href="/" className="flex items-center gap-3 text-white hover:opacity-90 transition">
           <span className="relative inline-flex h-11 w-11 items-center justify-center rounded-full bg-brand-accent shadow-[0_8px_24px_-12px_rgba(242,237,224,0.9)]">
             <Image

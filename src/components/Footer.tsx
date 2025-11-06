@@ -20,7 +20,7 @@ const SOCIAL_LINKS = [
 export default function Footer() {
   return (
     <footer className="border-t border-white/10 bg-black/50 backdrop-blur">
-      <div className="container py-12 flex flex-col gap-12 lg:flex-row lg:items-start lg:justify-between">
+      <div className="container px-6 md:px-8 py-12 flex flex-col gap-12 lg:flex-row lg:items-start lg:justify-between">
         <div className="inline-flex items-center overflow-hidden rounded-[2.5rem] border border-white/10 bg-brand-accent px-12 py-6 shadow-[0_24px_55px_-30px_rgba(242,237,224,0.9)]">
           <Image
             src="/assets/images/1.png"
@@ -67,7 +67,7 @@ export default function Footer() {
         </div>
       </div>
       <div className="border-t border-white/5 py-6">
-        <div className="container flex flex-col gap-2 text-xs uppercase tracking-[0.25em] text-white/40 sm:flex-row sm:items-center sm:justify-between">
+        <div className="container px-6 md:px-8 flex flex-col gap-2 text-xs uppercase tracking-[0.25em] text-white/40 sm:flex-row sm:items-center sm:justify-between">
           <span>© {new Date().getFullYear()} project. All rights reserved.</span>
           <span>Built with intention</span>
         </div>

@@ -6,7 +6,7 @@ export default function CoachingPage() {
   return (
     <>
       <Navbar />
-      <main className="pt-32">
+      <main className="px-6 md:px-8 pt-32">
         <Coaching />
       </main>
       <Footer />

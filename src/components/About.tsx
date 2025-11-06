@@ -45,30 +45,46 @@ export default function About() {
             {
               name: 'Birk',
               img: '/assets/images/team_birk.JPEG',
-              caption: '18-week recomposition · +35 lb squat · -9% body fat'
+              caption: '18-week recomposition · +35 lb squat · -9% body fat',
+              bio: 'Head coach and founder. Birk specializes in strength periodization and habit systems that keep busy professionals progressing without burnout.'
             },
             {
               name: 'Caleb',
               img: '/assets/images/team_caleb.JPEG',
-              caption: 'State podium finish · 1425 lb total · dialed-in nutrition'
+              caption: 'State podium finish · 1425 lb total · dialed-in nutrition',
+              bio: 'Performance coach focused on competition prep and nutrition strategy. Caleb blends data with on-platform experience to dial-in every phase.'
             }
           ].map((athlete) => (
-            <figure
+            <div
               key={athlete.name}
-              className="relative overflow-hidden rounded-3xl border border-white/10 bg-black/30"
+              className="flip-card h-80"
             >
-              <Image
-                src={athlete.img}
-                alt={`${athlete.name} training`}
-                width={960}
-                height={1280}
-                className="h-80 w-full object-cover"
-                sizes="(min-width: 1024px) 25vw, (min-width: 768px) 45vw, 90vw"
-              />
-              <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black via-black/60 to-transparent p-6">
-                <span className="eyebrow text-white/70">{athlete.name}</span>
-              </figcaption>
-            </figure>
+              <div className="flip-card-inner">
+                <div className="flip-card-front border border-white/10">
+                  <div className="relative h-full w-full">
+                    <Image
+                      src={athlete.img}
+                      alt={`${athlete.name} training`}
+                      width={960}
+                      height={1280}
+                      className="absolute inset-0 h-full w-full object-cover"
+                      sizes="(min-width: 1024px) 25vw, (min-width: 768px) 45vw, 90vw"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
+                    <div className="absolute inset-x-0 bottom-0 p-6">
+                      <span className="eyebrow text-white/70">{athlete.name}</span>
+                      <p className="text-white text-sm mt-2 leading-relaxed">
+                        {athlete.caption}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div className="flip-card-back border border-white/10 bg-brand-surface/90 p-6 flex flex-col justify-center gap-4">
+                  <span className="eyebrow text-brand-accent">{athlete.name}</span>
+                  <p className="text-white text-base leading-relaxed">{athlete.bio}</p>
+                </div>
+              </div>
+            </div>
           ))}
         </div>
         <div className="rounded-3xl border border-white/15 bg-black/40 p-10 shadow-[0_25px_70px_-35px_rgba(0,0,0,0.9)]">

@@ -1,3 +1,5 @@
+import NewsletterForm from './NewsletterForm';
+
 export default function Resources() {
   return (
     <section className="section">
@@ -18,7 +20,7 @@ export default function Resources() {
               Weekly breakdowns on training variables, recovery tactics, and mindset.
             </p>
           </div>
-          <button className="btn-secondary mt-8 self-start">Join List</button>
+          <NewsletterForm />
         </div>
         <div className="card border border-white/12 bg-brand-surface/60 p-8 flex flex-col justify-between">
           <div>

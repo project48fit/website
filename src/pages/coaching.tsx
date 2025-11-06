@@ -1,13 +1,15 @@
 import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
 import Coaching from '../components/Coaching';
 
 export default function CoachingPage() {
   return (
-    <main>
+    <>
       <Navbar />
-      <div className="pt-32">
+      <main className="pt-32">
         <Coaching />
-      </div>
-    </main>
+      </main>
+      <Footer />
+    </>
   );
 }

@@ -1,13 +1,15 @@
 import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
 import Results from '../components/Results';
 
 export default function ResultsPage() {
   return (
-    <main>
+    <>
       <Navbar />
-      <div className="pt-32">
+      <main className="pt-32">
         <Results />
-      </div>
-    </main>
+      </main>
+      <Footer />
+    </>
   );
 }

@@ -1,13 +1,15 @@
 import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
 import About from '../components/About';
 
 export default function AboutPage() {
   return (
-    <main>
+    <>
       <Navbar />
-      <div className="pt-32">
+      <main className="pt-32">
         <About />
-      </div>
-    </main>
+      </main>
+      <Footer />
+    </>
   );
 }

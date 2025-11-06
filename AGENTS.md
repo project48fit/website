@@ -35,5 +35,5 @@
 - After dependency changes, rerun `npm install` so `package-lock.json` stays in sync.
 
 ## Environment & Email Delivery
-- Set `RESEND_API_KEY` and `APPLY_EMAIL_TO` in `.env.local` (and in Vercel) to enable application form emails via Resend.
+- Set `RESEND_API_KEY`, `APPLY_EMAIL_FROM`, and `APPLY_EMAIL_TO` in `.env.local` (and mirror in Vercel) to enable application form emails via Resend.
 - Without these variables, `/api/apply` logs submissions to the server console only.

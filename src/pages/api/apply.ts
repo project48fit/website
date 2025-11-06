@@ -9,6 +9,8 @@ type ApplyRequestBody = {
 async function forwardEmail(payload: Required<ApplyRequestBody>) {
   const apiKey = process.env.RESEND_API_KEY;
   const toEmail = process.env.APPLY_EMAIL_TO;
+  const fromEmail =
+    process.env.APPLY_EMAIL_FROM ?? 'Project Coaching <coach@projectfitness.co>';
 
   if (!apiKey || !toEmail) {
     console.log('New coaching application:', payload);
@@ -22,7 +24,7 @@ async function forwardEmail(payload: Required<ApplyRequestBody>) {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      from: 'Project Coaching <coach@project.co>',
+      from: fromEmail,
       to: [toEmail],
       subject: `New coaching application from ${payload.name}`,
       text: `Name: ${payload.name}\nEmail: ${payload.email}\nGoals: ${payload.goals}`

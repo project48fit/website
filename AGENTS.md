@@ -12,6 +12,7 @@
 - `npm run dev` — start the Next.js dev server on port 3000.
 - `npm run build` — create a production build; run this before committing to catch type errors.
 - `npm run start` — serve the production build locally for smoke tests.
+- Copy `.env.local.example` to `.env.local` for local development; see Environment section below.
 
 ## Coding Style & Naming Conventions
 - TypeScript + React with functional components; prefer named exports per file.
@@ -32,3 +33,7 @@
 - Favor `apply_patch` for single-file edits to keep diffs focused.
 - When swapping imagery, update both component references and corresponding files in `public/assets/images/`.
 - After dependency changes, rerun `npm install` so `package-lock.json` stays in sync.
+
+## Environment & Email Delivery
+- Set `RESEND_API_KEY` and `APPLY_EMAIL_TO` in `.env.local` (and in Vercel) to enable application form emails via Resend.
+- Without these variables, `/api/apply` logs submissions to the server console only.

@@ -1,8 +1,19 @@
 import NewsletterForm from './NewsletterForm';
+import { motion } from 'framer-motion';
+import { fadeInScale, fadeInUp } from '../lib/motion';
 
 export default function Resources() {
   return (
-    <section className="section">
+    <motion.section
+      className="section"
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.3 }}
+      variants={{
+        hidden: { opacity: 0, y: 40 },
+        visible: { opacity: 1, y: 0, transition: { duration: 0.8, staggerChildren: 0.2 } }
+      }}
+    >
       <div className="section-header flex-col lg:flex-row">
         <div>
           <p className="eyebrow">Resources</p>
@@ -13,7 +24,7 @@ export default function Resources() {
         </p>
       </div>
       <div className="mt-12 grid gap-6 md:grid-cols-2">
-        <div className="card border border-white/12 bg-brand-surface/60 p-8 flex flex-col justify-between">
+        <motion.div className="card border border-white/12 bg-brand-surface/60 p-8 flex flex-col justify-between" variants={fadeInScale}>
           <div>
             <h3 className="text-white text-xl font-semibold">The project. Newsletter</h3>
             <p className="text-sm text-brand-muted mt-4">
@@ -21,8 +32,8 @@ export default function Resources() {
             </p>
           </div>
           <NewsletterForm />
-        </div>
-        <div className="card border border-white/12 bg-brand-surface/60 p-8 flex flex-col justify-between">
+        </motion.div>
+        <motion.div className="card border border-white/12 bg-brand-surface/60 p-8 flex flex-col justify-between" variants={fadeInScale}>
           <div>
             <h3 className="text-white text-xl font-semibold">Free 7-Day Kickstart Challenge</h3>
             <p className="text-sm text-brand-muted mt-4">
@@ -36,8 +47,8 @@ export default function Resources() {
           >
             Download PDF
           </a>
-        </div>
+        </motion.div>
       </div>
-    </section>
+    </motion.section>
   );
 }

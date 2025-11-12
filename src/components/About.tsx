@@ -1,8 +1,19 @@
 import Image from 'next/image';
+import { motion } from 'framer-motion';
+import { fadeInUp, fadeInScale } from '../lib/motion';
 
 export default function About() {
   return (
-    <section className="section">
+    <motion.section
+      className="section"
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.3 }}
+      variants={{
+        hidden: { opacity: 0, y: 40 },
+        visible: { opacity: 1, y: 0, transition: { duration: 0.8, staggerChildren: 0.2 } }
+      }}
+    >
       <div className="section-header flex-col md:flex-row">
         <div>
           <p className="eyebrow">Our Approach</p>
@@ -15,7 +26,13 @@ export default function About() {
           nutrition calibrated to your lifestyle, and real humans behind your weekly adjustments.
         </p>
       </div>
-      <div className="mt-12 grid gap-6 md:grid-cols-3">
+      <motion.div
+        className="mt-12 grid gap-6 md:grid-cols-3"
+        variants={{
+          hidden: {},
+          visible: { transition: { staggerChildren: 0.15 } }
+        }}
+      >
         {[
           {
             title: 'Training Architecture',
@@ -33,12 +50,12 @@ export default function About() {
               'Weekly check-ins, data-backed adjustments, and habits coaching so you stay moving forward.'
           }
         ].map((item) => (
-          <div key={item.title} className="card border border-white/15 bg-white/5 p-8">
+          <motion.div key={item.title} className="card border border-white/15 bg-white/5 p-8" variants={fadeInUp}>
             <span className="eyebrow text-brand-accent">{item.title}</span>
             <p className="text-white text-lg font-medium mt-6">{item.description}</p>
-          </div>
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
       <div className="mt-16 grid gap-10 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] items-center">
         <div className="grid gap-6 md:grid-cols-2">
           {[
@@ -53,9 +70,10 @@ export default function About() {
               bio: 'Caleb Thompson is a certified trainer & nutritionist. He has been training since 2022. Caleb will build out your exercise and meal plans. You can expect weekly check-ins with Caleb.'
             }
           ].map((athlete) => (
-            <div
+            <motion.div
               key={athlete.name}
               className="flip-card h-80"
+              variants={fadeInScale}
             >
               <div className="flip-card-inner">
                 <div className="flip-card-front border border-white/10">
@@ -79,7 +97,7 @@ export default function About() {
                   <p className="text-white text-base leading-relaxed">{athlete.bio}</p>
                 </div>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
         <div className="rounded-3xl border border-white/15 bg-black/40 p-10 shadow-[0_25px_70px_-35px_rgba(0,0,0,0.9)]">
@@ -100,6 +118,6 @@ export default function About() {
           </div>
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 }

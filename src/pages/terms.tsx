@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
@@ -84,7 +85,7 @@ export default function Terms() {
 
 type SectionProps = {
   title: string;
-  children: React.ReactNode;
+  children: ReactNode;
 };
 
 function Section({ title, children }: SectionProps) {

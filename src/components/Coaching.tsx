@@ -1,7 +1,19 @@
+import { motion } from 'framer-motion';
+import { fadeInUp, fadeInScale } from '../lib/motion';
+
 export default function Coaching() {
   return (
-    <section className="section">
-      <div className="section-header flex-col lg:flex-row">
+    <motion.section
+      className="section"
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.3 }}
+      variants={{
+        hidden: { opacity: 0, y: 40 },
+        visible: { opacity: 1, y: 0, transition: { duration: 0.8, staggerChildren: 0.2 } }
+      }}
+    >
+      <div className="section-header flex-col lg:flex-row" >
         <div>
           <p className="eyebrow">Coaching Tiers</p>
           <h2 className="h2 text-white mt-4">Choose the level of support that keeps you progressing.</h2>
@@ -12,7 +24,7 @@ export default function Coaching() {
         </p>
       </div>
       <div className="mt-12 grid gap-6 md:grid-cols-2">
-        <div className="card border border-white/15 bg-brand-surface/60 p-8">
+        <motion.div className="card border border-white/15 bg-brand-surface/60 p-8" variants={fadeInScale}>
           <span className="eyebrow text-brand-accent">Performance Coaching</span>
           <h3 className="text-white text-2xl font-semibold mt-4">$250 / month</h3>
           <p className="text-sm text-brand-muted mt-3">
@@ -32,8 +44,8 @@ export default function Coaching() {
               <span>Unlimited chat support inside our coaching platform.</span>
             </li>
           </ul>
-        </div>
-        <div className="card border border-brand-accent/40 bg-brand-surfaceSoft/60 p-8 relative overflow-hidden">
+        </motion.div>
+        <motion.div className="card border border-brand-accent/40 bg-brand-surfaceSoft/60 p-8 relative overflow-hidden" variants={fadeInScale}>
           <div className="absolute inset-0 bg-brand-accentSoft blur-3xl opacity-60" />
           <div className="relative">
             <span className="eyebrow text-brand-accent">Nutrition Add-On</span>
@@ -56,8 +68,8 @@ export default function Coaching() {
               </li>
             </ul>
           </div>
-        </div>
+        </motion.div>
       </div>
-    </section>
+    </motion.section>
   );
 }

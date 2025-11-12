@@ -36,5 +36,5 @@
 
 ## Environment & Email Delivery
 - Set `RESEND_API_KEY`, `APPLY_EMAIL_FROM`, and `APPLY_EMAIL_TO` in `.env.local` (and mirror in Vercel) to enable application form emails via Resend.
-- Optional: configure `NEWSLETTER_EMAIL_FROM`, `NEWSLETTER_EMAIL_TO`, and `NEWSLETTER_EMAIL_SUBJECT` for newsletter notifications (falls back to apply settings if absent).
+- Optional newsletter vars: `RESEND_NEWSLETTER_AUDIENCE_ID` to auto-file contacts in Resend, plus `NEWSLETTER_EMAIL_FROM`, `NEWSLETTER_EMAIL_TO`, and `NEWSLETTER_EMAIL_SUBJECT` for notifications (falls back to apply settings if absent).
 - Without these variables, `/api/apply` and `/api/newsletter` log submissions to the server console only.

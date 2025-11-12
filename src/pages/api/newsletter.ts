@@ -16,17 +16,14 @@ async function addContactToAudience(email: string) {
     return;
   }
 
-  const response = await fetch(
-    `https://api.resend.com/audiences/${audienceId}/contacts`,
-    {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ email })
-    }
-  );
+  const response = await fetch('https://api.resend.com/contacts', {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ email, audienceId })
+  });
 
   if (!response.ok) {
     const detail = await response.text();

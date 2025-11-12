@@ -21,16 +21,18 @@ export default function LoaderOverlay() {
         >
           <motion.div
             className="relative flex items-center justify-center"
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
+            initial={{ opacity: 0, scale: 0.8, rotate: -5 }}
+            animate={{ opacity: 1, scale: 1, rotate: 0 }}
+            exit={{ opacity: 0, scale: 0.7, rotate: 5, transition: { duration: 0.6 } }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
             <Image
-              src="/assets/images/1_logo.png"
+              src="/assets/images/1.png"
               alt="project."
               width={420}
               height={140}
-              className="w-[420px] h-auto object-contain drop-shadow-[0_30px_60px_rgba(0,0,0,0.35)]"
+              className="w-[420px] h-auto object-contain"
+              priority
             />
           </motion.div>
         </motion.div>

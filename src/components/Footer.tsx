@@ -78,9 +78,13 @@ export default function Footer() {
         </div>
       </div>
       <div className="border-t border-white/5 py-6">
-        <div className="container px-6 md:px-8 flex flex-col gap-2 text-xs uppercase tracking-[0.25em] text-white/40 sm:flex-row sm:items-center sm:justify-between">
+        <div className="container px-6 md:px-8 flex flex-col gap-3 text-xs uppercase tracking-[0.25em] text-white/40 sm:flex-row sm:items-center sm:justify-between">
           <span>© {new Date().getFullYear()} project. All rights reserved.</span>
-          <span>Built with intention</span>
+          <div className="flex flex-wrap gap-4 text-[0.65rem]">
+            <Link href="/privacy" className="hover:text-white transition">Privacy Policy</Link>
+            <Link href="/terms" className="hover:text-white transition">Terms of Service</Link>
+            <span>Built with intention</span>
+          </div>
         </div>
       </div>
     </footer>

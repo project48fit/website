@@ -10,9 +10,21 @@ const NAV_LINKS = [
 const SOCIAL_LINKS = [
   {
     label: 'Instagram',
-    href: 'https://instagram.com/project._________',
-    handle: 'project._________',
+    href: 'https://instagram.com/projectfitness.co',
+    handle: 'projectfitness.co',
     icon: '/assets/icons/instagram.svg'
+  },
+  {
+    label: 'Twitter',
+    href: 'https://twitter.com/RealProject48',
+    handle: 'RealProject48',
+    icon: '/assets/icons/twitter.svg'
+  },
+  {
+    label: 'TikTok',
+    href: 'https://www.tiktok.com/@projectfitness.co',
+    handle: 'projectfitness.co',
+    icon: '/assets/icons/tiktok.svg'
   }
 ];
 

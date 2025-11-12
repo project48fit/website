@@ -14,15 +14,16 @@ export default function LoaderOverlay() {
     <AnimatePresence>
       {isVisible && (
         <motion.div
-          className="fixed inset-0 z-[999] flex items-center justify-center bg-black"
-          initial={{ opacity: 1 }}
-          exit={{ opacity: 0, transition: { duration: 0.6 } }}
+          className="fixed inset-0 z-[999] flex items-center justify-center bg-brand-accent"
+          initial={{ scale: 1 }}
+          animate={{ scale: 1 }}
+          exit={{ scale: 0, borderRadius: '30%', transition: { duration: 0.8, ease: [0.83, 0, 0.17, 1] } }}
         >
           <motion.div
-            className="relative h-32 w-32 rounded-[2rem] bg-brand-accent/90 flex items-center justify-center"
-            initial={{ scale: 0.8, rotateX: 25, rotateY: -25 }}
-            animate={{ scale: 1, rotateX: 0, rotateY: 0 }}
-            transition={{ duration: 0.8, ease: 'easeOut' }}
+            className="relative h-32 w-32 rounded-[2rem] bg-black flex items-center justify-center"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
           >
             <Image
               src="/assets/images/1.png"
@@ -33,7 +34,7 @@ export default function LoaderOverlay() {
             />
             <motion.div
               className="absolute inset-0 rounded-[2rem] border border-white/20"
-              initial={{ opacity: 0, scale: 0.8 }}
+              initial={{ opacity: 0, scale: 0.7 }}
               animate={{ opacity: 1, scale: 1.05 }}
               transition={{ duration: 1.2, repeat: Infinity, repeatType: 'mirror' }}
             />

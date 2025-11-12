@@ -1,4 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
+import { Resend } from 'resend';
 
 type NewsletterBody = {
   email?: string;
@@ -16,18 +17,15 @@ async function addContactToAudience(email: string) {
     return;
   }
 
-  const response = await fetch('https://api.resend.com/contacts', {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ email, audienceId })
+  const resend = new Resend(apiKey);
+  const { error } = await resend.contacts.create({
+    email,
+    audienceId,
+    unsubscribed: false
   });
 
-  if (!response.ok) {
-    const detail = await response.text();
-    throw new Error(`Resend audience error: ${detail}`);
+  if (error) {
+    throw new Error(`Resend audience error: ${error.message}`);
   }
 }
 

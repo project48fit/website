@@ -43,8 +43,14 @@ Experience: ${experience ?? 'Not provided'}
       completion.choices[0]?.message?.content?.toString() ?? 'Coach review pending.';
 
     res.status(200).json({ summary: text });
-  } catch (error) {
+  } catch (error: any) {
     console.error('Coach assist error', error);
+    if (error?.code === 'insufficient_quota' || error?.status === 429) {
+      return res.status(200).json({
+        summary:
+          'We heard you loud and clear—our assistant hit a temporary limit. A human coach will follow up shortly with a tailored plan.'
+      });
+    }
     res.status(500).json({ error: 'Unable to process request right now.' });
   }
 }

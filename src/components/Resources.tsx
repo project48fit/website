@@ -1,5 +1,4 @@
 import NewsletterForm from './NewsletterForm';
-import CoachAssistForm from './CoachAssistForm';
 import { motion } from 'framer-motion';
 import { fadeInScale, fadeInUp } from '../lib/motion';
 
@@ -57,7 +56,6 @@ export default function Resources() {
             Download PDF
           </a>
         </motion.div>
-        <CoachAssistForm />
       </div>
     </motion.section>
   );

@@ -37,5 +37,4 @@
 ## Environment & Email Delivery
 - Set `RESEND_API_KEY`, `APPLY_EMAIL_FROM`, and `APPLY_EMAIL_TO` in `.env.local` (and mirror in Vercel) to enable application form emails via Resend.
 - Optional newsletter vars: `RESEND_NEWSLETTER_AUDIENCE_ID` to auto-file contacts in Resend, plus `NEWSLETTER_EMAIL_FROM`, `NEWSLETTER_EMAIL_TO`, and `NEWSLETTER_EMAIL_SUBJECT` for notifications (falls back to apply settings if absent).
-- `OPENAI_API_KEY` powers the AI intake assistant and newsletter draft tools.
 - Without these variables, `/api/apply` and `/api/newsletter` log submissions to the server console only.

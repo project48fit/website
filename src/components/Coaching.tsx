@@ -24,7 +24,11 @@ export default function Coaching() {
         </p>
       </div>
       <div className="mt-12 grid gap-6 md:grid-cols-2">
-        <motion.div className="card border border-white/15 bg-brand-surface/60 p-8" variants={fadeInScale}>
+        <motion.div
+          className="card border border-white/15 bg-brand-surface/60 p-8 tilt-card"
+          variants={fadeInScale}
+          whileHover={{ rotateX: -2, rotateY: 2, scale: 1.02 }}
+        >
           <span className="eyebrow text-brand-accent">Performance Coaching</span>
           <h3 className="text-white text-2xl font-semibold mt-4">$250 / month</h3>
           <p className="text-sm text-brand-muted mt-3">
@@ -45,7 +49,11 @@ export default function Coaching() {
             </li>
           </ul>
         </motion.div>
-        <motion.div className="card border border-brand-accent/40 bg-brand-surfaceSoft/60 p-8 relative overflow-hidden" variants={fadeInScale}>
+        <motion.div
+          className="card border border-brand-accent/40 bg-brand-surfaceSoft/60 p-8 relative overflow-hidden tilt-card"
+          variants={fadeInScale}
+          whileHover={{ rotateX: -2, rotateY: 2, scale: 1.02 }}
+        >
           <div className="absolute inset-0 bg-brand-accentSoft blur-3xl opacity-60" />
           <div className="relative">
             <span className="eyebrow text-brand-accent">Nutrition Add-On</span>

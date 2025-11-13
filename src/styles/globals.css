@@ -43,6 +43,8 @@ html, body, #__next {
 }
 .flip-card {
   perspective: 1500px;
+  position: relative;
+  z-index: 0;
 }
 .flip-card-inner {
   position: relative;
@@ -64,4 +66,7 @@ html, body, #__next {
 }
 .flip-card-back {
   transform: rotateY(180deg);
+}
+.tilt-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }

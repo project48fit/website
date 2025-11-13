@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { fadeInUp, fadeInScale } from '../lib/motion';
+import { useCallback } from 'react';
 
 export default function About() {
   return (
@@ -72,8 +73,10 @@ export default function About() {
           ].map((athlete) => (
             <motion.div
               key={athlete.name}
-              className="flip-card h-80"
+              className="flip-card h-80 tilt-card"
               variants={fadeInScale}
+              whileHover={{ rotateX: -3, rotateY: 3, scale: 1.02 }}
+              transition={{ type: 'spring', stiffness: 120, damping: 15 }}
             >
               <div className="flip-card-inner">
                 <div className="flip-card-front border border-white/10">

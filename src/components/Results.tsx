@@ -36,7 +36,12 @@ export default function Results() {
             image: '/assets/images/team_caleb.JPEG'
           }
         ].map((item) => (
-          <motion.article key={item.name} className="relative h-80 overflow-hidden rounded-3xl border border-white/10" variants={fadeInScale}>
+          <motion.article
+            key={item.name}
+            className="relative h-80 overflow-hidden rounded-3xl border border-white/10 tilt-card"
+            variants={fadeInScale}
+            whileHover={{ scale: 1.02 }}
+          >
             <div className="absolute inset-0">
               <Image
                 src={item.image}

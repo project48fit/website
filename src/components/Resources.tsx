@@ -24,7 +24,11 @@ export default function Resources() {
         </p>
       </div>
       <div className="mt-12 grid gap-6 md:grid-cols-2">
-        <motion.div className="card border border-white/12 bg-brand-surface/60 p-8 flex flex-col justify-between" variants={fadeInScale}>
+        <motion.div
+          className="card border border-white/12 bg-brand-surface/60 p-8 flex flex-col justify-between tilt-card"
+          variants={fadeInScale}
+          whileHover={{ rotateX: -2, rotateY: 2, scale: 1.02 }}
+        >
           <div>
             <h3 className="text-white text-xl font-semibold">The project. Newsletter</h3>
             <p className="text-sm text-brand-muted mt-4">
@@ -33,7 +37,11 @@ export default function Resources() {
           </div>
           <NewsletterForm />
         </motion.div>
-        <motion.div className="card border border-white/12 bg-brand-surface/60 p-8 flex flex-col justify-between" variants={fadeInScale}>
+        <motion.div
+          className="card border border-white/12 bg-brand-surface/60 p-8 flex flex-col justify-between tilt-card"
+          variants={fadeInScale}
+          whileHover={{ rotateX: -2, rotateY: 2, scale: 1.02 }}
+        >
           <div>
             <h3 className="text-white text-xl font-semibold">Free 7-Day Kickstart Challenge</h3>
             <p className="text-sm text-brand-muted mt-4">

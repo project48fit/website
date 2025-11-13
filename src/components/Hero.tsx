@@ -64,21 +64,30 @@ export default function Hero() {
             </p>
           </motion.div>
           <motion.div className="card p-6 border-white/10 grid grid-cols-3 gap-4 text-center" variants={fadeInUp}>
-            <div>
-              <div className="stat-value">1</div>
-              <div className="stat-label">Personalized Program</div>
-            </div>
-            <div>
-              <div className="stat-value">1</div>
-              <div className="stat-label">Weekly Meeting</div>
-            </div>
-            <div>
-              <div className="stat-value">24 / 7</div>
-              <div className="stat-label">Access</div>
-            </div>
+            <Stat value={1} label="Personalized Program" />
+            <Stat value={1} label="Weekly Meeting" />
+            <Stat value="24 / 7" label="Access" />
           </motion.div>
         </motion.div>
       </div>
     </section>
+  );
+}
+
+type StatProps = {
+  value: number | string;
+  label: string;
+};
+
+function Stat({ value, label }: StatProps) {
+  return (
+    <motion.div
+      className="flex flex-col items-center"
+      whileHover={{ scale: 1.08 }}
+      transition={{ type: 'spring', stiffness: 200, damping: 12 }}
+    >
+      <div className="stat-value">{value}</div>
+      <div className="stat-label">{label}</div>
+    </motion.div>
   );
 }

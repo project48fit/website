@@ -13,3 +13,4 @@ Copy `.env.local.example` to `.env.local` and set:
 - `NEWSLETTER_EMAIL_FROM` – Sender address for newsletter opt-in notifications
 - `NEWSLETTER_EMAIL_TO` – Inbox that should receive newsletter sign-ups (defaults to `APPLY_EMAIL_TO` if omitted)
 - `NEWSLETTER_EMAIL_SUBJECT` – Optional custom subject line for newsletter alerts
+- `OPENAI_API_KEY` – Enables the AI intake assistant and newsletter draft generator

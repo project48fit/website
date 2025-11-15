@@ -18,7 +18,7 @@ export default function Hero() {
       </video>
       <div className="absolute inset-0 bg-gradient-to-r from-black via-black/75 to-black/20" />
       <div className="absolute inset-0 bg-black/35" />
-      <div className="container relative z-10 grid gap-12 md:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] items-end pt-32 pb-24">
+      <div className="container relative z-10 grid gap-12 md:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] items-end pt-20 pb-12 md:pt-32 md:pb-24">
         <motion.div
           initial="hidden"
           animate="visible"

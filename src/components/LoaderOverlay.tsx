@@ -21,9 +21,9 @@ export default function LoaderOverlay() {
         >
           <motion.div
             className="relative flex items-center justify-center"
-            initial={{ opacity: 0, scale: 0.8, rotate: -5 }}
+            initial={{ opacity: 0, scale: 0.85, rotate: -5 }}
             animate={{ opacity: 1, scale: 1, rotate: 0 }}
-            exit={{ opacity: 0, scale: 0.7, rotate: 5, transition: { duration: 0.6 } }}
+            exit={{ opacity: 0, scale: 0.75, rotate: 5, transition: { duration: 0.6 } }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
             <Image
@@ -31,7 +31,7 @@ export default function LoaderOverlay() {
               alt="project."
               width={420}
               height={140}
-              className="w-[420px] h-auto object-contain"
+              className="w-[70vw] max-w-xs md:max-w-md h-auto object-contain"
               priority
             />
           </motion.div>

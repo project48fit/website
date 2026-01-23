@@ -1,6 +1,7 @@
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import dynamic from 'next/dynamic';
+import { Analytics } from '@vercel/analytics/next';
 import '../styles/globals.css';
 import '../styles/theme.css';
 
@@ -21,6 +22,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
         <meta name="twitter:image" content={previewImage} />
       </Head>
       <Component {...pageProps} />
+      <Analytics />
     </>
   );
 }

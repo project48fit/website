@@ -1,0 +1,78 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #050506;
+  --bg-soft: #0C0D10;
+  --bg-surface: #14161A;
+  --text: #F5F6F7;
+  --muted: #9EA3AE;
+  --accent: #F2EDE0;
+  --signal: #F2503A;
+  color-scheme: dark;
+}
+html, body, #__next {
+  height: 100%;
+  background: linear-gradient(180deg, rgba(5,5,6,1) 0%, rgba(12,13,16,1) 40%, rgba(20,22,26,1) 100%);
+  color: var(--text);
+  font-family: "Inter", "Helvetica Neue", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+@font-face {
+  font-family: "EngraversOldEnglish";
+  src: url("/fonts/engravers-old-english.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+.btn-primary {
+  @apply inline-flex items-center justify-center px-7 py-3 rounded-full bg-brand-accent text-[#050506] text-sm font-semibold uppercase tracking-[0.2em] hover:bg-white transition-shadow shadow-[0_14px_40px_-20px_rgba(242,237,224,0.8)];
+}
+.btn-secondary {
+  @apply inline-flex items-center justify-center px-7 py-3 rounded-full border border-white/20 text-white text-sm uppercase tracking-[0.2em] hover:border-white/40 hover:bg-white/5 transition;
+}
+.container { @apply max-w-6xl mx-auto px-5; }
+.muted { color: var(--muted); }
+.form-label {
+  @apply block text-sm text-white/80 uppercase tracking-[0.25em];
+}
+.form-input {
+  @apply mt-3 w-full rounded-lg border border-white/15 bg-black/40 px-4 py-3 text-base text-white placeholder:text-white/40 focus:border-brand-accent focus:outline-none focus:ring-0;
+}
+.form-input-pill {
+  @apply w-full rounded-full border border-white/15 bg-black/30 px-5 py-3 text-sm text-white placeholder:text-white/50 focus:border-brand-accent focus:outline-none focus:ring-0;
+}
+.card {
+  @apply rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm;
+}
+.flip-card {
+  perspective: 1500px;
+  position: relative;
+  z-index: 0;
+}
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+  transform-style: preserve-3d;
+}
+.flip-card:hover .flip-card-inner {
+  transform: rotateY(180deg);
+}
+.flip-card-front,
+.flip-card-back {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  border-radius: 1.25rem;
+  overflow: hidden;
+}
+.flip-card-back {
+  transform: rotateY(180deg);
+}
+.tilt-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}

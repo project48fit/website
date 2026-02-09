@@ -1,37 +1,63 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { getParallelClient, getParallelProcessor } from '../../lib/parallel';
+import { getSupabaseAdmin } from '../../lib/supabaseAdmin';
 
 type ApplyRequestBody = {
-  name?: string;
+  full_name?: string;
   email?: string;
-  goals?: string;
+  phone?: string;
+  primary_goal?: string;
+  training_days_per_week?: string;
+  consult_availability?: string;
+  start_timeframe?: string;
+  goals_detail?: string;
+  utm_source?: string;
+  utm_medium?: string;
+  utm_campaign?: string;
+  utm_content?: string;
+  utm_term?: string;
+  referrer?: string;
+  landing_url?: string;
 };
 
-async function forwardEmail(payload: Required<ApplyRequestBody>) {
+async function notifyCoaches(payload: ApplyRequestBody, leadId: string) {
   const apiKey = process.env.RESEND_API_KEY;
-  const toEmail = process.env.APPLY_EMAIL_TO;
+  const toEmails = process.env.COACH_NOTIFY_EMAILS ?? '';
   const fromEmail =
     process.env.APPLY_EMAIL_FROM ?? 'Project Coaching <coach@projectfitness.co>';
 
-  if (!apiKey || !toEmail) {
-    console.log('New coaching application:', payload);
+  if (!apiKey || !toEmails) {
+    console.log('Lead received (email not configured):', { leadId, ...payload });
     return;
   }
 
-  const recipients = toEmail
+  const recipients = toEmails
     .split(',')
     .map((address) => address.trim())
     .filter(Boolean);
 
-  if (recipients.length === 0) {
-    console.log('New coaching application (no recipients):', payload);
-    return;
-  }
+  if (recipients.length === 0) return;
 
-  const brief = await generateCoachBrief(payload);
-  const briefSection = brief ? `\n\nCoach Brief (Parallel)\n${brief}\n` : '';
+  const text = [
+    `Lead ID: ${leadId}`,
+    `Name: ${payload.full_name ?? ''}`,
+    `Email: ${payload.email ?? ''}`,
+    `Phone: ${payload.phone ?? ''}`,
+    `Primary goal: ${payload.primary_goal ?? ''}`,
+    `Training days/week: ${payload.training_days_per_week ?? ''}`,
+    `Consult availability: ${payload.consult_availability ?? ''}`,
+    `Start timeframe: ${payload.start_timeframe ?? ''}`,
+    `Goals detail: ${payload.goals_detail ?? ''}`,
+    '',
+    `utm_source: ${payload.utm_source ?? ''}`,
+    `utm_medium: ${payload.utm_medium ?? ''}`,
+    `utm_campaign: ${payload.utm_campaign ?? ''}`,
+    `utm_content: ${payload.utm_content ?? ''}`,
+    `utm_term: ${payload.utm_term ?? ''}`,
+    `referrer: ${payload.referrer ?? ''}`,
+    `landing_url: ${payload.landing_url ?? ''}`
+  ].join('\n');
 
-  await fetch('https://api.resend.com/emails', {
+  const response = await fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${apiKey}`,
@@ -40,31 +66,30 @@ async function forwardEmail(payload: Required<ApplyRequestBody>) {
     body: JSON.stringify({
       from: fromEmail,
       to: recipients,
-      subject: `New coaching application from ${payload.name}`,
-      text: `Name: ${payload.name}\nEmail: ${payload.email}\nGoals: ${payload.goals}${briefSection}`
+      subject: `New coaching application — ${payload.full_name ?? 'Unknown'}`,
+      text
     })
-  }).then(async (response) => {
-    if (!response.ok) {
-      const message = await response.text();
-      throw new Error(`Resend API error: ${message}`);
-    }
   });
+
+  if (!response.ok) {
+    const message = await response.text();
+    throw new Error(`Resend API error: ${message}`);
+  }
 }
 
-async function sendApplicantConfirmation(payload: Required<ApplyRequestBody>) {
+async function sendApplicantConfirmation(payload: ApplyRequestBody) {
   const apiKey = process.env.RESEND_API_KEY;
-  if (!apiKey) return;
+  if (!apiKey || !payload.email || !payload.full_name) return;
 
   const fromEmail =
     process.env.APPLY_CONFIRMATION_FROM ??
     'Project Fitness <marketing@notifications.projectfitness.co>';
-
-  const calendarLink = 'https://calendar.app.google/v4MAspiPTvvRnc127';
+  const bookingUrl = process.env.BOOKING_URL ?? '';
   const scheduledAt = new Date(Date.now() + 10 * 60 * 1000).toISOString();
 
   const subject = 'Next step: book your Project. coaching call';
   const text = [
-    `Hey ${payload.name}, thanks for filling out the Project. coaching form.`,
+    `Hey ${payload.full_name}, thanks for filling out the Project. coaching form.`,
     '',
     'You took the first step toward getting structure, accountability, and a fitness plan that fits your life.',
     '',
@@ -77,7 +102,7 @@ async function sendApplicantConfirmation(payload: Required<ApplyRequestBody>) {
     "If it is, we’ll outline how we’d coach you. If it’s not, we’ll tell you that too.",
     '',
     'Book your call here:',
-    calendarLink,
+    bookingUrl,
     '',
     "Spots are limited each week so we can stay hands-on with our clients. If you’re serious about making progress, book your time now.",
     '',
@@ -88,7 +113,7 @@ async function sendApplicantConfirmation(payload: Required<ApplyRequestBody>) {
   ].join('\n');
 
   const html = `
-    <p>Hey ${payload.name}, thanks for filling out the Project. coaching form.</p>
+    <p>Hey ${payload.full_name}, thanks for filling out the Project. coaching form.</p>
     <p>You took the first step toward getting structure, accountability, and a fitness plan that fits your life.</p>
     <p><strong>Here’s what happens next:</strong><br />
       Caleb and I run a short 15–20 minute coaching call to:</p>
@@ -99,7 +124,7 @@ async function sendApplicantConfirmation(payload: Required<ApplyRequestBody>) {
     </ul>
     <p>If it is, we’ll outline how we’d coach you. If it’s not, we’ll tell you that too.</p>
     <p><strong>Book your call here:</strong><br />
-      <a href="${calendarLink}">${calendarLink}</a>
+      <a href="${bookingUrl}">${bookingUrl}</a>
     </p>
     <p>Spots are limited each week so we can stay hands-on with our clients. If you’re serious about making progress, book your time now.</p>
     <p>Talk soon,<br />
@@ -133,125 +158,6 @@ async function sendApplicantConfirmation(payload: Required<ApplyRequestBody>) {
   }
 }
 
-type CoachBrief = {
-  summary: string;
-  key_goals: string[];
-  risks: string[];
-  first_two_weeks_focus: string[];
-  follow_up_questions: string[];
-  readiness_score: number;
-  readiness_label: 'low' | 'medium' | 'high';
-  tags: string[];
-};
-
-function formatCoachBrief(brief: CoachBrief) {
-  return [
-    `Readiness: ${brief.readiness_label} (${brief.readiness_score}/100)`,
-    `Tags: ${brief.tags.join(', ')}`,
-    '',
-    `Summary: ${brief.summary}`,
-    '',
-    'Key Goals:',
-    ...brief.key_goals.map((goal) => `- ${goal}`),
-    '',
-    'Risks / Blockers:',
-    ...brief.risks.map((risk) => `- ${risk}`),
-    '',
-    'First 2-Week Focus:',
-    ...brief.first_two_weeks_focus.map((item) => `- ${item}`),
-    '',
-    'Follow-Up Questions:',
-    ...brief.follow_up_questions.map((question) => `- ${question}`)
-  ].join('\n');
-}
-
-async function generateCoachBrief(payload: Required<ApplyRequestBody>) {
-  const client = getParallelClient();
-  if (!client) return null;
-
-  try {
-    const run = await client.taskRun.create({
-      input: {
-        name: payload.name,
-        email: payload.email,
-        goals: payload.goals
-      },
-      processor: getParallelProcessor(),
-      metadata: {
-        source: 'apply_form'
-      },
-      task_spec: {
-        output_schema: {
-          type: 'json',
-          json_schema: {
-            type: 'object',
-            additionalProperties: false,
-            properties: {
-              readiness_score: {
-                type: 'number',
-                description: '0-100 readiness score based on clarity, constraints, and fit.'
-              },
-              readiness_label: {
-                type: 'string',
-                enum: ['low', 'medium', 'high'],
-                description: 'Qualitative readiness bucket.'
-              },
-              tags: {
-                type: 'array',
-                items: { type: 'string' },
-                description: 'Short labels like "strength", "fat loss", "busy schedule".'
-              },
-              summary: {
-                type: 'string',
-                description: '1-2 sentence summary of the applicant and their goals.'
-              },
-              key_goals: {
-                type: 'array',
-                items: { type: 'string' },
-                description: 'Top 2-4 concrete goals.'
-              },
-              risks: {
-                type: 'array',
-                items: { type: 'string' },
-                description: 'Likely blockers, constraints, or risks.'
-              },
-              first_two_weeks_focus: {
-                type: 'array',
-                items: { type: 'string' },
-                description: 'Suggested focus areas for the first two weeks.'
-              },
-              follow_up_questions: {
-                type: 'array',
-                items: { type: 'string' },
-                description: '3-5 follow-up questions for onboarding.'
-              }
-            },
-            required: [
-              'readiness_score',
-              'readiness_label',
-              'tags',
-              'summary',
-              'key_goals',
-              'risks',
-              'first_two_weeks_focus',
-              'follow_up_questions'
-            ]
-          }
-        }
-      }
-    });
-
-    const result = await client.taskRun.result(run.run_id, { timeout: 10 });
-    if (result.output.type === 'json') {
-      return formatCoachBrief(result.output.content as CoachBrief);
-    }
-    return result.output.content.trim();
-  } catch (error) {
-    console.error('Parallel coach brief failed', error);
-    return null;
-  }
-}
-
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') {
     res.setHeader('Allow', 'POST');
@@ -259,21 +165,68 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return;
   }
 
-  const { name, email, goals }: ApplyRequestBody = req.body ?? {};
+  const body: ApplyRequestBody = req.body ?? {};
+  const {
+    full_name,
+    email,
+    phone,
+    primary_goal,
+    training_days_per_week,
+    consult_availability,
+    start_timeframe
+  } = body;
 
-  if (!name || !email || !goals) {
+  if (
+    !full_name ||
+    !email ||
+    !phone ||
+    !primary_goal ||
+    !training_days_per_week ||
+    !consult_availability ||
+    !start_timeframe
+  ) {
     res.status(400).json({ error: 'Missing required fields.' });
     return;
   }
 
   try {
-    await forwardEmail({ name, email, goals });
-    sendApplicantConfirmation({ name, email, goals }).catch((error) =>
-      console.error('Applicant confirmation failed', error)
+    const supabase = getSupabaseAdmin();
+    const { data, error } = await supabase
+      .from('leads')
+      .insert([
+        {
+          full_name: body.full_name,
+          email: body.email,
+          phone: body.phone,
+          primary_goal: body.primary_goal,
+          training_days_per_week: body.training_days_per_week,
+          consult_availability: body.consult_availability,
+          start_timeframe: body.start_timeframe,
+          goals_detail: body.goals_detail ?? null,
+          utm_source: body.utm_source ?? null,
+          utm_medium: body.utm_medium ?? null,
+          utm_campaign: body.utm_campaign ?? null,
+          utm_content: body.utm_content ?? null,
+          utm_term: body.utm_term ?? null,
+          referrer: body.referrer ?? null,
+          landing_url: body.landing_url ?? null
+        }
+      ])
+      .select('id')
+      .single();
+
+    if (error || !data?.id) {
+      throw new Error(error?.message ?? 'Failed to store lead.');
+    }
+
+    await notifyCoaches(body, data.id);
+    sendApplicantConfirmation(body).catch((err) =>
+      console.error('Applicant confirmation failed', err)
     );
-    res.status(200).json({ ok: true });
+
+    res.status(200).json({ ok: true, lead_id: data.id });
   } catch (error) {
-    console.error('Error forwarding application', error);
-    res.status(500).json({ error: 'Failed to send application. Please try again later.' });
+    console.error('Lead submission failed', error);
+    res.status(500).json({ error: 'Failed to submit application. Please try again.' });
   }
 }

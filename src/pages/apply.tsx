@@ -122,12 +122,7 @@ export default function ApplyPage({ bookingUrl }: ApplyPageProps) {
             <p className="text-base text-white/70">
               Personalized training and nutrition. Weekly check-ins. No guesswork.
             </p>
-            <a
-              href="#application"
-              className="inline-flex items-center justify-center rounded-full bg-white px-6 py-3 text-xs font-semibold uppercase tracking-[0.25em] text-black"
-            >
-              Apply in 2 minutes
-            </a>
+            <p className="text-sm text-white/60">Apply in 2 minutes</p>
           </div>
 
           <div className="space-y-4">
@@ -160,6 +155,7 @@ export default function ApplyPage({ bookingUrl }: ApplyPageProps) {
             </ul>
             <p className="text-sm text-white/60">
               “I finally have a plan I can actually stick to. Progress is measurable every week.”
+              <span className="block text-white/50">— Online Coaching Client</span>
             </p>
           </div>
         </div>
@@ -350,3 +346,4 @@ export const getServerSideProps: GetServerSideProps<ApplyPageProps> = async () =
     }
   };
 };
+

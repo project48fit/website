@@ -6,12 +6,13 @@ export default function ApplyForm() {
   const [formValues, setFormValues] = useState({
     name: '',
     email: '',
-    goals: ''
+    goals: '',
+    company_website: ''
   });
   const [status, setStatus] = useState<FormStatus>('idle');
   const [errorMessage, setErrorMessage] = useState('');
 
-  const updateField = (field: 'name' | 'email' | 'goals') => (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const updateField = (field: 'name' | 'email' | 'goals' | 'company_website') => (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormValues((prev) => ({ ...prev, [field]: event.target.value }));
   };
 
@@ -33,7 +34,7 @@ export default function ApplyForm() {
       }
 
       setStatus('success');
-      setFormValues({ name: '', email: '', goals: '' });
+      setFormValues({ name: '', email: '', goals: '', company_website: '' });
     } catch (error) {
       setStatus('error');
       setErrorMessage(error instanceof Error ? error.message : 'Unable to submit application right now.');
@@ -45,6 +46,15 @@ export default function ApplyForm() {
       onSubmit={handleSubmit}
       className="card border border-white/10 bg-brand-surface/80 p-8 space-y-6 max-w-xl"
     >
+      <input
+        type="text"
+        name="company_website"
+        value={formValues.company_website}
+        onChange={updateField('company_website')}
+        autoComplete="off"
+        tabIndex={-1}
+        className="hidden"
+      />
       <label className="form-label">
         Full Name
         <input
@@ -91,6 +101,17 @@ export default function ApplyForm() {
       >
         {status === 'submitting' ? 'Submitting…' : 'Submit Application'}
       </button>
+
+      <p className="text-xs text-white/50">
+        By submitting, you agree to be contacted by email/text. Please don’t include medical info.{' '}
+        <a href="/privacy" className="underline underline-offset-4">
+          Privacy Policy
+        </a>{' '}
+        •{' '}
+        <a href="/terms" className="underline underline-offset-4">
+          Terms
+        </a>
+      </p>
 
       {status === 'success' && (
         <p className="text-sm text-brand-accent uppercase tracking-[0.25em]">

@@ -10,6 +10,7 @@ type ApplyRequestBody = {
   consult_availability?: string;
   start_timeframe?: string;
   goals_detail?: string;
+  company_website?: string;
   utm_source?: string;
   utm_medium?: string;
   utm_campaign?: string;
@@ -18,6 +19,27 @@ type ApplyRequestBody = {
   referrer?: string;
   landing_url?: string;
 };
+
+async function isRateLimited(ip: string) {
+  const url = process.env.UPSTASH_REDIS_REST_URL;
+  const token = process.env.UPSTASH_REDIS_REST_TOKEN;
+  if (!url || !token) return false;
+
+  const key = `rate:apply:${ip}`;
+  const incrResponse = await fetch(`${url}/incr/${encodeURIComponent(key)}`, {
+    headers: { Authorization: `Bearer ${token}` }
+  });
+  const incrData = await incrResponse.json();
+  const count = typeof incrData.result === 'number' ? incrData.result : 0;
+
+  if (count === 1) {
+    await fetch(`${url}/expire/${encodeURIComponent(key)}/600`, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+  }
+
+  return count > 5;
+}
 
 async function notifyCoaches(payload: ApplyRequestBody, leadId: string) {
   const apiKey = process.env.RESEND_API_KEY;
@@ -165,6 +187,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return;
   }
 
+  const forwardedFor = req.headers['x-forwarded-for'];
+  const ip =
+    (typeof forwardedFor === 'string' ? forwardedFor.split(',')[0].trim() : undefined) ||
+    req.socket.remoteAddress ||
+    'unknown';
+
+  if (await isRateLimited(ip)) {
+    res.status(429).json({ error: 'Too many requests. Please try again later.' });
+    return;
+  }
+
   const body: ApplyRequestBody = req.body ?? {};
   const {
     full_name,
@@ -173,8 +206,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     primary_goal,
     training_days_per_week,
     consult_availability,
-    start_timeframe
+    start_timeframe,
+    company_website
   } = body;
+
+  if (company_website && company_website.trim().length > 0) {
+    res.status(200).json({ ok: true });
+    return;
+  }
 
   if (
     !full_name ||

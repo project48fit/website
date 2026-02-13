@@ -17,6 +17,7 @@ type LeadForm = {
   consult_availability: string;
   start_timeframe: string;
   goals_detail: string;
+  company_website: string;
 };
 
 type LeadMetadata = {
@@ -49,7 +50,8 @@ export default function ApplyPage({ bookingUrl }: ApplyPageProps) {
       training_days_per_week: '',
       consult_availability: '',
       start_timeframe: '',
-      goals_detail: ''
+      goals_detail: '',
+      company_website: ''
     }
   });
 
@@ -182,6 +184,14 @@ export default function ApplyPage({ bookingUrl }: ApplyPageProps) {
             ) : (
               <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
                 <h2 className="text-xl font-semibold text-white">Apply now</h2>
+
+                <input
+                  type="text"
+                  autoComplete="off"
+                  tabIndex={-1}
+                  className="hidden"
+                  {...register('company_website')}
+                />
 
                 <div>
                   <label className="block text-xs uppercase tracking-[0.3em] text-white/60">
@@ -327,6 +337,18 @@ export default function ApplyPage({ bookingUrl }: ApplyPageProps) {
                   {status === 'submitting' ? 'Submitting…' : 'Submit application'}
                 </button>
 
+                <p className="text-xs text-white/50">
+                  By submitting, you agree to be contacted by email/text. Please don’t include
+                  medical info.{' '}
+                  <a href="/privacy" className="underline underline-offset-4">
+                    Privacy Policy
+                  </a>{' '}
+                  •{' '}
+                  <a href="/terms" className="underline underline-offset-4">
+                    Terms
+                  </a>
+                </p>
+
                 {status === 'error' && (
                   <p className="text-xs text-red-400">{errorMessage}</p>
                 )}
@@ -346,4 +368,3 @@ export const getServerSideProps: GetServerSideProps<ApplyPageProps> = async () =
     }
   };
 };
-

@@ -1,3 +1,4 @@
+
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { getSupabaseAdmin } from '../../lib/supabaseAdmin';
 import { sendLinkedInApplyConversion } from '../../lib/linkedinCapi';
@@ -108,55 +109,67 @@ async function sendApplicantConfirmation(payload: ApplyRequestBody) {
   const fromEmail =
     process.env.APPLY_CONFIRMATION_FROM ??
     'Project Fitness <marketing@notifications.projectfitness.co>';
-  const bookingUrl = process.env.BOOKING_URL ?? '';
+  const bookingUrl =
+    process.env.BOOKING_URL ?? 'https://calendar.app.google/c7qR2kRWT7HLDQBYA';
   const scheduledAt = new Date(Date.now() + 10 * 60 * 1000).toISOString();
 
-  const subject = 'Next step: book your Project. coaching call';
+  const subject = 'Next step: book your Project Fitness call';
   const text = [
-    `Hey ${payload.full_name}, thanks for filling out the Project. coaching form.`,
+    `Hi ${payload.full_name},`,
     '',
-    'You took the first step toward getting structure, accountability, and a fitness plan that fits your life.',
+    'Thanks for applying to Project Fitness coaching.',
+    'The next step is a 15 to 20 minute coaching call so we can align on goals and map your plan.',
     '',
-    "Here's what happens next:",
-    'Caleb and I run a short 15–20 minute coaching call to:',
-    '- Understand your goals and training history',
-    "- Identify what’s been holding you back",
-    '- See if Project is the right fit for you moving forward',
+    'Please book your call now. We keep a limited number of spots each week.',
     '',
-    "If it is, we’ll outline how we’d coach you. If it’s not, we’ll tell you that too.",
-    '',
-    'Book your call here:',
     bookingUrl,
-    '',
-    "Spots are limited each week so we can stay hands-on with our clients. If you’re serious about making progress, book your time now.",
     '',
     'Talk soon,',
     'Birk & Caleb',
-    'Project. Fitness',
-    'Website: https://projectfitness.co'
+    'Project Fitness'
   ].join('\n');
 
   const html = `
-    <p>Hey ${payload.full_name}, thanks for filling out the Project. coaching form.</p>
-    <p>You took the first step toward getting structure, accountability, and a fitness plan that fits your life.</p>
-    <p><strong>Here’s what happens next:</strong><br />
-      Caleb and I run a short 15–20 minute coaching call to:</p>
-    <ul>
-      <li>Understand your goals and training history</li>
-      <li>Identify what’s been holding you back</li>
-      <li>See if Project is the right fit for you moving forward</li>
-    </ul>
-    <p>If it is, we’ll outline how we’d coach you. If it’s not, we’ll tell you that too.</p>
-    <p><strong>Book your call here:</strong><br />
-      <a href="${bookingUrl}">${bookingUrl}</a>
-    </p>
-    <p>Spots are limited each week so we can stay hands-on with our clients. If you’re serious about making progress, book your time now.</p>
-    <p>Talk soon,<br />
-      <strong>Birk &amp; Caleb</strong><br />
-      Project. Fitness<br />
-      Website: <a href="https://projectfitness.co">projectfitness.co</a>
-    </p>
-    <p><img src="https://projectfitness.co/full_logo.png" alt="Project. Fitness" style="max-width: 240px; height: auto;" /></p>
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f2ede0; padding:32px 16px; font-family: Arial, sans-serif;">
+    <tr>
+      <td align="center">
+        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:600px; background:#fdfaf3; border:1px solid #0e0e0e;">
+          <tr>
+            <td style="padding:24px 24px 0 24px; text-align:center;">
+              <img src="https://projectfitness.co/full_logo.png" alt="Project Fitness" width="220" style="display:block; margin:0 auto;" />
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:24px; color:#0e0e0e; font-size:16px; line-height:1.5;">
+              <p style="margin:0 0 12px 0;">Hi ${payload.full_name},</p>
+              <p style="margin:0 0 12px 0;">Thanks for applying to Project Fitness coaching.</p>
+              <p style="margin:0 0 12px 0;">
+                The next step is a 15 to 20 minute coaching call so we can align on goals and map your plan.
+              </p>
+              <p style="margin:0 0 20px 0;">
+                Please book your call now. We keep a limited number of spots each week.
+              </p>
+              <table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 16px 0;">
+                <tr>
+                  <td bgcolor="#0e0e0e" style="padding:14px 22px; text-align:center;">
+                    <a href="${bookingUrl}" style="color:#f2ede0; text-decoration:none; text-transform:uppercase; letter-spacing:0.2em; font-size:12px; font-weight:700; display:inline-block;">
+                      Book your coaching call
+                    </a>
+                  </td>
+                </tr>
+              </table>
+              <p style="margin:0 0 12px 0; font-size:13px;">
+                If the button does not work, use this link:
+                <br />
+                <a href="${bookingUrl}" style="color:#0e0e0e; text-decoration:underline;">${bookingUrl}</a>
+              </p>
+              <p style="margin:20px 0 0 0;">Talk soon,<br />Birk &amp; Caleb</p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
   `;
 
   const response = await fetch('https://api.resend.com/emails', {

@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { getSupabaseAdmin } from '../../lib/supabaseAdmin';
+import { sendLinkedInApplyConversion } from '../../lib/linkedinCapi';
 
 type ApplyRequestBody = {
   full_name?: string;
@@ -11,6 +12,7 @@ type ApplyRequestBody = {
   start_timeframe?: string;
   goals_detail?: string;
   company_website?: string;
+  li_fat_id?: string;
   utm_source?: string;
   utm_medium?: string;
   utm_campaign?: string;
@@ -207,7 +209,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     training_days_per_week,
     consult_availability,
     start_timeframe,
-    company_website
+    company_website,
+    li_fat_id
   } = body;
 
   if (company_website && company_website.trim().length > 0) {
@@ -261,6 +264,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     await notifyCoaches(body, data.id);
     sendApplicantConfirmation(body).catch((err) =>
       console.error('Applicant confirmation failed', err)
+    );
+    sendLinkedInApplyConversion({ email, li_fat_id }).catch((err) =>
+      console.error('LinkedIn conversion failed', err)
     );
 
     res.status(200).json({ ok: true, lead_id: data.id });

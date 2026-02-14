@@ -36,6 +36,7 @@ export default function ApplyPage({ bookingUrl }: ApplyPageProps) {
   const [errorMessage, setErrorMessage] = useState('');
   const [leadId, setLeadId] = useState<string | null>(null);
   const [meta, setMeta] = useState<LeadMetadata>({});
+  const [liFatId, setLiFatId] = useState('');
 
   const {
     register,
@@ -70,15 +71,32 @@ export default function ApplyPage({ bookingUrl }: ApplyPageProps) {
     });
   }, [router.isReady, queryParams]);
 
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const params = new URLSearchParams(window.location.search);
+    const fromUrl = params.get('li_fat_id') ?? '';
+    if (fromUrl) {
+      localStorage.setItem('li_fat_id', fromUrl);
+      setLiFatId(fromUrl);
+      return;
+    }
+    const stored = localStorage.getItem('li_fat_id') ?? '';
+    if (stored) setLiFatId(stored);
+  }, []);
+
   const onSubmit = async (values: LeadForm) => {
     setStatus('submitting');
     setErrorMessage('');
 
     try {
+      const storedLiFatId =
+        liFatId ||
+        (typeof window !== 'undefined' ? localStorage.getItem('li_fat_id') : '') ||
+        '';
       const response = await fetch('/api/apply', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...values, ...meta })
+        body: JSON.stringify({ ...values, ...meta, li_fat_id: storedLiFatId })
       });
 
       if (!response.ok) {

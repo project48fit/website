@@ -112,21 +112,31 @@ async function sendApplicantConfirmation(payload: ApplyRequestBody) {
   const bookingUrl =
     process.env.BOOKING_URL ?? 'https://calendar.app.google/c7qR2kRWT7HLDQBYA';
   const scheduledAt = new Date(Date.now() + 10 * 60 * 1000).toISOString();
+  const firstName = payload.full_name.trim().split(' ')[0] || payload.full_name;
 
-  const subject = 'Next step: book your Project Fitness call';
+  const subject = 'Thanks for Applying — Book Your Call';
   const text = [
-    `Hi ${payload.full_name},`,
+    `Hey ${firstName},`,
     '',
-    'Thanks for applying to Project Fitness coaching.',
-    'The next step is a 15 to 20 minute coaching call so we can align on goals and map your plan.',
+    'Thanks for taking the time to fill out the Project coaching application. We appreciate it.',
     '',
-    'Please book your call now. We keep a limited number of spots each week.',
+    'The next step is simple.',
+    '',
+    'Book your 15 to 20 minute coaching call so we can:',
+    '• Understand your goals and training history',
+    '• Identify what has been holding you back',
+    '• Walk through what coaching would look like for you',
+    '',
+    'This call gives you clarity on your direction and whether Project is the right fit.',
+    '',
+    'Spots are limited each week so we can stay hands-on with our clients. If you’re serious about making progress, book your time now.',
     '',
     bookingUrl,
     '',
     'Talk soon,',
     'Birk & Caleb',
-    'Project Fitness'
+    'Founders of Project Fitness',
+    'projectfitness.co'
   ].join('\n');
 
   const html = `
@@ -141,14 +151,17 @@ async function sendApplicantConfirmation(payload: ApplyRequestBody) {
           </tr>
           <tr>
             <td style="padding:24px; color:#0e0e0e; font-size:16px; line-height:1.5;">
-              <p style="margin:0 0 12px 0;">Hi ${payload.full_name},</p>
-              <p style="margin:0 0 12px 0;">Thanks for applying to Project Fitness coaching.</p>
-              <p style="margin:0 0 12px 0;">
-                The next step is a 15 to 20 minute coaching call so we can align on goals and map your plan.
-              </p>
-              <p style="margin:0 0 20px 0;">
-                Please book your call now. We keep a limited number of spots each week.
-              </p>
+              <p style="margin:0 0 12px 0;">Hey ${firstName},</p>
+              <p style="margin:0 0 12px 0;">Thanks for taking the time to fill out the Project coaching application. We appreciate it.</p>
+              <p style="margin:0 0 12px 0;">The next step is simple.</p>
+              <p style="margin:0 0 12px 0;">Book your 15 to 20 minute coaching call so we can:</p>
+              <ul style="margin:0 0 12px 18px; padding:0;">
+                <li>Understand your goals and training history</li>
+                <li>Identify what has been holding you back</li>
+                <li>Walk through what coaching would look like for you</li>
+              </ul>
+              <p style="margin:0 0 12px 0;">This call gives you clarity on your direction and whether Project is the right fit.</p>
+              <p style="margin:0 0 20px 0;">Spots are limited each week so we can stay hands-on with our clients. If you’re serious about making progress, book your time now.</p>
               <table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 16px 0;">
                 <tr>
                   <td bgcolor="#0e0e0e" style="padding:14px 22px; text-align:center;">
@@ -163,7 +176,7 @@ async function sendApplicantConfirmation(payload: ApplyRequestBody) {
                 <br />
                 <a href="${bookingUrl}" style="color:#0e0e0e; text-decoration:underline;">${bookingUrl}</a>
               </p>
-              <p style="margin:20px 0 0 0;">Talk soon,<br />Birk &amp; Caleb</p>
+              <p style="margin:20px 0 0 0;">Talk soon,<br />Birk &amp; Caleb<br />Founders of Project Fitness<br />projectfitness.co</p>
             </td>
           </tr>
         </table>

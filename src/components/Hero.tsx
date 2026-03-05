@@ -29,17 +29,16 @@ export default function Hero() {
           }}
         >
           <motion.p className="eyebrow text-white/70" variants={fadeInUp}>
-            Individualized · Coaching · Accountability
+            Executive Fitness Coaching
           </motion.p>
           <motion.h1 className="h1 max-w-2xl mt-6 text-white leading-tight" variants={fadeInUp}>
-            <span className="block">A vehicle for those who desire a healthier lifestyle.</span>
-            <span className="block text-white">Start building today.</span>
+            <span className="block">Private coaching for founders who need energy, clarity, and a body that performs.</span>
           </motion.h1>
           <motion.p className="p max-w-lg mt-5 text-white/75" variants={fadeInUp}>
-            Online coaching built on proven systems, relentless accountability, and truly individualized planning for busy professionals and competitive athletes.
+            Strength training, conditioning, and nutrition guidance built for high responsibility schedules and travel.
           </motion.p>
           <motion.div className="mt-10 flex flex-wrap items-center gap-4" variants={fadeInUp}>
-            <Link href="/apply" className="btn-primary">Start Coaching</Link>
+            <Link href="/apply" className="btn-primary">Request Private Coaching</Link>
           </motion.div>
         </motion.div>
         <motion.div
@@ -59,14 +58,14 @@ export default function Hero() {
           <motion.div className="card p-6 border-white/20" variants={fadeInUp}>
             <span className="stat-label">project. Ethos</span>
             <p className="text-white text-2xl font-semibold mt-4 leading-snug">
-              project. represents health as culture—<br />
-              a disciplined pursuit, lived out daily.
+              project. represents health as a disciplined pursuit,<br />
+              practiced daily with intention.
             </p>
           </motion.div>
           <motion.div className="card p-6 border-white/10 grid grid-cols-3 gap-4 text-center" variants={fadeInUp}>
             <Stat value={1} label="Personalized Program" />
-            <Stat value={1} label="Weekly Meeting" />
-            <Stat value="24 / 7" label="Access" />
+            <Stat value={1} label="1:1 Check-In" />
+            <Stat value="Ongoing" label="Support" />
           </motion.div>
         </motion.div>
       </div>

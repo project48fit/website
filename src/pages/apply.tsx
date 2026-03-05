@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
+import Link from 'next/link';
 import type { GetServerSideProps } from 'next';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
@@ -358,13 +359,13 @@ export default function ApplyPage({ bookingUrl }: ApplyPageProps) {
                 <p className="text-xs text-white/50">
                   By submitting, you agree to be contacted by email/text. Please don’t include
                   medical info.{' '}
-                  <a href="/privacy" className="underline underline-offset-4">
+                  <Link href="/privacy">
                     Privacy Policy
-                  </a>{' '}
+                  </Link>{' '}
                   •{' '}
-                  <a href="/terms" className="underline underline-offset-4">
+                  <Link href="/terms">
                     Terms
-                  </a>
+                  </Link>
                 </p>
 
                 {status === 'error' && (

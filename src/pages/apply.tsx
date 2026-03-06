@@ -147,10 +147,10 @@ export default function ApplyPage({ bookingUrl }: ApplyPageProps) {
           </div>
 
           <div className="space-y-4">
-            <h2 className="text-lg font-semibold text-white">Who it’s for</h2>
+            <h2 className="text-lg font-semibold text-white">Who it's for</h2>
             <ul className="space-y-3 text-sm text-white/70">
               <li>Executives and founders with demanding schedules who need a structured system, not a generic plan.</li>
-              <li>Leaders whose energy and physical output aren’t keeping pace with their professional demands.</li>
+              <li>Leaders whose energy and physical output aren't keeping pace with their professional demands.</li>
               <li>Professionals who understand the value of expert accountability and want to treat health as a performance asset.</li>
             </ul>
           </div>
@@ -167,16 +167,16 @@ export default function ApplyPage({ bookingUrl }: ApplyPageProps) {
             </div>
           </div>
 
-          <div className=”space-y-4”>
-            <h2 className=”text-lg font-semibold text-white”>What you can expect</h2>
-            <ul className=”space-y-3 text-sm text-white/70”>
+          <div className="space-y-4">
+            <h2 className="text-lg font-semibold text-white">What you can expect</h2>
+            <ul className="space-y-3 text-sm text-white/70">
               <li>Weekly check-ins that keep you consistent regardless of how demanding your week gets.</li>
               <li>Programming built around your schedule, travel, and performance goals.</li>
               <li>Clear feedback and fast adjustments from a coach who knows your program.</li>
             </ul>
-            <p className=”text-sm text-white/60”>
-              “The accountability and commitment that comes with investing in Project is the difference maker.”
-              <span className=”block text-white/50”>— Keith T., Executive Coaching Client</span>
+            <p className="text-sm text-white/60">
+              "The accountability and commitment that comes with investing in Project is the difference maker."
+              <span className="block text-white/50">— Keith T., Executive Coaching Client</span>
             </p>
           </div>
         </div>
@@ -188,7 +188,7 @@ export default function ApplyPage({ bookingUrl }: ApplyPageProps) {
                 <p className="text-xs uppercase tracking-[0.35em] text-white/60">Application received</p>
                 <h2 className="text-2xl font-semibold text-white">Step 2: Book your consult now</h2>
                 <p className="text-sm text-white/70">
-                  Pick a time that works for you. We’ll cover goals, constraints, and next steps.
+                  Pick a time that works for you. We'll cover goals, constraints, and next steps.
                 </p>
                 <a
                   href={bookingUrl}
@@ -358,7 +358,7 @@ export default function ApplyPage({ bookingUrl }: ApplyPageProps) {
                 </button>
 
                 <p className="text-xs text-white/50">
-                  By submitting, you agree to be contacted by email/text. Please don’t include
+                  By submitting, you agree to be contacted by email/text. Please don't include
                   medical info.{' '}
                   <Link href="/privacy">
                     Privacy Policy

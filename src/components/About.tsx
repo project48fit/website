@@ -4,19 +4,19 @@ import { fadeInUp, fadeInScale } from '../lib/motion';
 
 const APPROACH_CARDS = [
   {
-    title: ‘Training Architecture’,
+    title: 'Training Architecture',
     description:
-      ‘Fully custom programming built around your schedule, travel, and performance goals — periodized, adjusted weekly, and designed to compound over time.’
+      'Fully custom programming built around your schedule, travel, and performance goals — periodized, adjusted weekly, and designed to compound over time.'
   },
   {
-    title: ‘Performance Nutrition’,
+    title: 'Performance Nutrition',
     description:
-      ‘Macro targets and meal structure that fuel your output, support recovery, and integrate into the demands of an executive schedule.’
+      'Macro targets and meal structure that fuel your output, support recovery, and integrate into the demands of an executive schedule.'
   },
   {
-    title: ‘Accountability Systems’,
+    title: 'Accountability Systems',
     description:
-      ‘Weekly check-ins, data-backed adjustments, and direct coach access that keep you progressing regardless of how demanding your week gets.’
+      'Weekly check-ins, data-backed adjustments, and direct coach access that keep you progressing regardless of how demanding your week gets.'
   }
 ];
 

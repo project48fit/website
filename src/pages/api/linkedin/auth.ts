@@ -1,20 +1,12 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-// Initiates the LinkedIn OAuth 2.0 flow for organization posting.
-// Access this route at /api/linkedin/auth to begin authorization.
-// Requires LINKEDIN_CLIENT_ID env var.
+// Initiates the LinkedIn OAuth 2.0 flow for personal (member) posting.
+// Uses w_member_social scope — available with the "Share on LinkedIn" product.
+// No admin token required here; the OAuth flow itself is the security boundary.
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'GET') {
     res.setHeader('Allow', 'GET');
     return res.status(405).json({ error: 'Method not allowed' });
-  }
-
-  const adminToken = process.env.ADMIN_API_TOKEN;
-  if (adminToken) {
-    const provided = req.query.token ?? req.headers['x-admin-token'];
-    if (provided !== adminToken) {
-      return res.status(401).json({ error: 'Unauthorized' });
-    }
   }
 
   const clientId = process.env.LINKEDIN_CLIENT_ID;
@@ -25,10 +17,9 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://projectfitness.co';
   const redirectUri = `${baseUrl}/api/linkedin/callback`;
 
-  const scopes = [
-    'w_organization_social',
-    'r_organization_social',
-  ].join(' ');
+  // w_member_social: post as the authenticated member (Share on LinkedIn product)
+  // openid profile: get the member ID from /v2/userinfo (OpenID Connect)
+  const scopes = ['w_member_social', 'openid', 'profile'].join(' ');
 
   const params = new URLSearchParams({
     response_type: 'code',

@@ -209,22 +209,24 @@ export default function LinkedInAdminPage() {
           </p>
           <pre style={{ fontSize: 12, color: '#9EA3AE', lineHeight: 1.8, margin: 0, whiteSpace: 'pre-wrap' }}>{`LINKEDIN_CLIENT_ID=...
 LINKEDIN_CLIENT_SECRET=...
-LINKEDIN_ORGANIZATION_ID=...  # numeric ID from your LinkedIn company page URL
 NEXT_PUBLIC_SITE_URL=https://projectfitness.co
 
-# Also add to your LinkedIn Developer App:
+# LinkedIn Developer App — required products:
+#   1. Share on LinkedIn          (gives w_member_social scope)
+#   2. Sign In with LinkedIn using OpenID Connect  (gives openid profile)
 # Redirect URI: https://projectfitness.co/api/linkedin/callback
-# Product: Marketing Developer Platform
-# Scope: w_organization_social, r_organization_social
 
-# Supabase table (run in Supabase SQL editor):
+# Supabase table (run in SQL editor):
 # create table linkedin_tokens (
 #   id text primary key,
 #   access_token text not null,
 #   refresh_token text,
 #   expires_at timestamptz not null,
+#   member_id text,
 #   updated_at timestamptz default now()
-# );`}</pre>
+# );
+# -- If table already exists, add the column:
+# alter table linkedin_tokens add column if not exists member_id text;`}</pre>
         </div>
       </div>
     </div>

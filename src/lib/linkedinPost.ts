@@ -9,6 +9,7 @@ type LinkedInTokenRow = {
   access_token: string;
   refresh_token: string | null;
   expires_at: string;
+  member_id: string | null;
 };
 
 type PostLinkedInParams = {
@@ -25,7 +26,7 @@ async function getStoredToken(): Promise<LinkedInTokenRow | null> {
   const supabase = getSupabaseAdmin();
   const { data, error } = await supabase
     .from('linkedin_tokens')
-    .select('id, access_token, refresh_token, expires_at')
+    .select('id, access_token, refresh_token, expires_at, member_id')
     .eq('id', 'default')
     .single();
 
@@ -55,16 +56,16 @@ async function refreshAccessToken(refreshToken: string): Promise<{ access_token:
   return res.json();
 }
 
-async function getValidToken(): Promise<string | null> {
+async function getValidToken(): Promise<{ token: string; memberId: string } | null> {
   const row = await getStoredToken();
-  if (!row) return null;
+  if (!row || !row.member_id) return null;
 
   const expiresAt = new Date(row.expires_at).getTime() / 1000;
   const now = Math.floor(Date.now() / 1000);
 
   // Token is still valid and not within the refresh buffer
   if (expiresAt - now > TOKEN_REFRESH_BUFFER_SECONDS) {
-    return row.access_token;
+    return { token: row.access_token, memberId: row.member_id };
   }
 
   // Attempt refresh if we have a refresh token
@@ -82,20 +83,18 @@ async function getValidToken(): Promise<string | null> {
       access_token: refreshed.access_token,
       refresh_token: refreshed.refresh_token ?? row.refresh_token,
       expires_at: newExpiresAt,
+      member_id: row.member_id,
     });
 
-  return refreshed.access_token;
+  return { token: refreshed.access_token, memberId: row.member_id };
 }
 
 export async function postToLinkedIn({ content }: PostLinkedInParams): Promise<PostLinkedInResult> {
-  const orgId = process.env.LINKEDIN_ORGANIZATION_ID;
-  if (!orgId) return { ok: false, error: 'LINKEDIN_ORGANIZATION_ID is not set.' };
-
-  const token = await getValidToken();
-  if (!token) return { ok: false, error: 'No valid LinkedIn access token. Re-authorize at /admin/linkedin.' };
+  const auth = await getValidToken();
+  if (!auth) return { ok: false, error: 'No valid LinkedIn access token. Re-authorize at /admin/linkedin.' };
 
   const body = {
-    author: `urn:li:organization:${orgId}`,
+    author: `urn:li:person:${auth.memberId}`,
     commentary: content,
     visibility: 'PUBLIC',
     distribution: {
@@ -110,7 +109,7 @@ export async function postToLinkedIn({ content }: PostLinkedInParams): Promise<P
   const res = await fetch(`${LINKEDIN_API_BASE}/posts`, {
     method: 'POST',
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${auth.token}`,
       'LinkedIn-Version': LINKEDIN_VERSION,
       'Content-Type': 'application/json',
       'X-Restli-Protocol-Version': '2.0.0',
@@ -132,6 +131,7 @@ export async function storeLinkedInTokens(params: {
   access_token: string;
   refresh_token: string | null;
   expires_in: number;
+  member_id: string;
 }) {
   const supabase = getSupabaseAdmin();
   const expiresAt = new Date(Date.now() + params.expires_in * 1000).toISOString();
@@ -143,6 +143,7 @@ export async function storeLinkedInTokens(params: {
       access_token: params.access_token,
       refresh_token: params.refresh_token,
       expires_at: expiresAt,
+      member_id: params.member_id,
     });
 
   if (error) throw new Error(`Failed to store tokens: ${error.message}`);

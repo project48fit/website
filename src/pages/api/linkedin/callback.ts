@@ -68,15 +68,37 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     refresh_token_expires_in?: number;
   };
 
+  // Fetch the member's person ID via OpenID Connect userinfo endpoint
+  let memberId: string | null = null;
+  const userinfoRes = await fetch('https://api.linkedin.com/v2/userinfo', {
+    headers: { Authorization: `Bearer ${tokens.access_token}` },
+  });
+  if (userinfoRes.ok) {
+    const userinfo = await userinfoRes.json() as { sub?: string; name?: string };
+    memberId = userinfo.sub ?? null;
+  }
+
+  if (!memberId) {
+    return res.status(500).send(`
+      <html><body style="font-family:monospace;padding:40px;background:#050506;color:#F5F6F7;">
+        <h2>Could not retrieve LinkedIn member ID</h2>
+        <p>Token exchange succeeded but userinfo fetch failed. Make sure the "Sign In with LinkedIn using OpenID Connect" product is added to your LinkedIn app.</p>
+        <a href="/admin/linkedin" style="color:#F2EDE0;">Back to admin</a>
+      </body></html>
+    `);
+  }
+
   await storeLinkedInTokens({
     access_token: tokens.access_token,
     refresh_token: tokens.refresh_token ?? null,
     expires_in: tokens.expires_in,
+    member_id: memberId,
   });
 
   res.send(`
     <html><body style="font-family:monospace;padding:40px;background:#050506;color:#F5F6F7;">
       <h2 style="color:#F2EDE0;">LinkedIn connected successfully.</h2>
+      <p>Posting as member ID: ${memberId}</p>
       <p>Access token stored. Expires in ${Math.floor(tokens.expires_in / 86400)} days.</p>
       ${tokens.refresh_token ? '<p>Refresh token stored — auto-renewal is enabled.</p>' : '<p>No refresh token received — you will need to re-authorize in 60 days.</p>'}
       <a href="/admin/linkedin" style="color:#F2EDE0;">Back to admin</a>

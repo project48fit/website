@@ -67,6 +67,28 @@ Target viewer: 28-45 year old executive or founder who feels their health is sli
 - Identity: "Executives who treat health like a business asset."
 - Proof: Keith T. quote -- "The accountability and commitment that comes with investing in Project is the difference maker."
 
+## Posting to LinkedIn (API)
+
+To post content directly to the Project Fitness LinkedIn company page:
+
+1. Generate the post content following the procedures above.
+2. Verify content is under 3000 characters and passes brand guardrails.
+3. POST to the site API:
+
+```
+POST https://projectfitness.co/api/linkedin/post
+Headers:
+  Content-Type: application/json
+  x-admin-token: {ADMIN_API_TOKEN env var value}
+Body:
+  { "content": "your post text here" }
+```
+
+4. A 200 response with { ok: true, postId: "..." } confirms the post is live.
+5. If the response is 500 with "No valid LinkedIn access token", the token needs renewal at /admin/linkedin.
+
+Admin UI for manual posting: https://projectfitness.co/admin/linkedin
+
 ## Examples
 Good hook lines:
 - "Your schedule is the excuse. Our system removes it."

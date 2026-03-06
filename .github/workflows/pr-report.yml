@@ -1,0 +1,182 @@
+name: PR Report Email
+
+on:
+  pull_request:
+    types: [opened, reopened, ready_for_review]
+
+permissions:
+  contents: read
+  pull-requests: read
+  checks: read
+
+jobs:
+  pr-report:
+    if: startsWith(github.head_ref, 'agent/')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      - name: Send PR report email
+        env:
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          REPORT_TO_EMAIL: ${{ secrets.REPORT_TO_EMAIL }}
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+          VERCEL_TEAM_ID: ${{ secrets.VERCEL_TEAM_ID }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          node - <<'NODE'
+          const fs = require('fs');
+          const eventPath = process.env.GITHUB_EVENT_PATH;
+          if (!eventPath) {
+            console.error('Missing GITHUB_EVENT_PATH');
+            process.exit(1);
+          }
+
+          const event = JSON.parse(fs.readFileSync(eventPath, 'utf8'));
+          const pr = event.pull_request;
+          if (!pr) {
+            console.log('No pull_request in event.');
+            process.exit(0);
+          }
+
+          const title = pr.title || 'Untitled PR';
+          const prUrl = pr.html_url || '';
+          const branch = pr.head?.ref || '';
+          const base = pr.base?.ref || '';
+          const sha = pr.head?.sha || '';
+          const owner = pr.base?.repo?.owner?.login || '';
+          const repo = pr.base?.repo?.name || '';
+
+          async function getPreviewUrlFromVercel() {
+            const token = process.env.VERCEL_TOKEN;
+            const projectId = process.env.VERCEL_PROJECT_ID;
+            if (!token || !projectId || !branch) return null;
+
+            const params = new URLSearchParams({
+              projectId,
+              limit: '5',
+              'meta-githubCommitRef': branch
+            });
+            const teamId = process.env.VERCEL_TEAM_ID;
+            if (teamId) params.set('teamId', teamId);
+
+            const url = `https://api.vercel.com/v6/deployments?${params.toString()}`;
+            const res = await fetch(url, {
+              headers: { Authorization: `Bearer ${token}` }
+            }).catch(() => null);
+
+            if (!res || !res.ok) return null;
+            const data = await res.json().catch(() => null);
+            if (!data || !Array.isArray(data.deployments)) return null;
+
+            const deployment = data.deployments.find((d) => d?.url) || data.deployments[0];
+            if (!deployment || !deployment.url) return null;
+            return `https://${deployment.url}`;
+          }
+
+          async function getPreviewUrlFromGitHubStatuses() {
+            const token = process.env.GITHUB_TOKEN;
+            if (!token || !owner || !repo || !sha) return null;
+
+            const url = `https://api.github.com/repos/${owner}/${repo}/commits/${sha}/statuses`;
+            const res = await fetch(url, {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                Accept: 'application/vnd.github+json'
+              }
+            }).catch(() => null);
+
+            if (!res || !res.ok) return null;
+            const statuses = await res.json().catch(() => null);
+            if (!Array.isArray(statuses)) return null;
+
+            const vercelStatus = statuses.find((status) => {
+              const target = (status.target_url || '').toLowerCase();
+              const context = (status.context || '').toLowerCase();
+              const desc = (status.description || '').toLowerCase();
+              return target.includes('vercel') || context.includes('vercel') || desc.includes('vercel');
+            });
+
+            return vercelStatus?.target_url || null;
+          }
+
+          async function getLintStatus() {
+            const token = process.env.GITHUB_TOKEN;
+            if (!token || !owner || !repo || !sha) return 'Lint: not found';
+
+            const url = `https://api.github.com/repos/${owner}/${repo}/commits/${sha}/check-runs`;
+            const res = await fetch(url, {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                Accept: 'application/vnd.github+json'
+              }
+            }).catch(() => null);
+
+            if (!res || !res.ok) return 'Lint: not found';
+            const data = await res.json().catch(() => null);
+            const runs = data?.check_runs || [];
+            const lintRun = runs.find((run) => (run.name || '').toLowerCase().includes('lint'));
+            if (!lintRun || !lintRun.conclusion) return 'Lint: not found';
+            return lintRun.conclusion === 'success' ? 'Lint: pass' : 'Lint: fail';
+          }
+
+          async function sendEmail(body) {
+            const apiKey = process.env.RESEND_API_KEY;
+            const to = process.env.REPORT_TO_EMAIL;
+            if (!apiKey || !to) {
+              console.error('Missing RESEND_API_KEY or REPORT_TO_EMAIL');
+              process.exit(1);
+            }
+
+            const payload = {
+              from: 'Project Fitness <marketing@notifications.projectfitness.co>',
+              to: [to],
+              subject: `PR Report: ${title}`,
+              text: body
+            };
+
+            const res = await fetch('https://api.resend.com/emails', {
+              method: 'POST',
+              headers: {
+                Authorization: `Bearer ${apiKey}`,
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(payload)
+            });
+
+            if (!res.ok) {
+              const msg = await res.text();
+              console.error(`Resend error: ${msg}`);
+              process.exit(1);
+            }
+          }
+
+          (async () => {
+            const previewUrl = await getPreviewUrlFromVercel();
+            const githubPreviewUrl = previewUrl ? null : await getPreviewUrlFromGitHubStatuses();
+            const lintStatus = await getLintStatus();
+            const previewLine = previewUrl
+              ? `Preview: ${previewUrl}`
+              : githubPreviewUrl
+              ? `Preview: ${githubPreviewUrl}`
+              : 'Preview: check the Vercel deployment status on the PR.';
+
+            const body = [
+              `PR Title: ${title}`,
+              `PR URL: ${prUrl}`,
+              `Branch: ${branch}`,
+              `Base: ${base}`,
+              previewLine,
+              `QA: ${lintStatus}`
+            ].join('\n');
+
+            await sendEmail(body);
+            console.log('PR report email sent.');
+          })().catch((err) => {
+            console.error(err);
+            process.exit(1);
+          });
+          NODE

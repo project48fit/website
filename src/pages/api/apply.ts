@@ -127,9 +127,9 @@ async function sendApplicantConfirmation(payload: ApplyRequestBody) {
     '• Identify what has been holding you back',
     '• Walk through what coaching would look like for you',
     '',
-    'This call gives you clarity on your direction and whether Project is the right fit.',
-    '',
-    'Spots are limited each week so we can stay hands-on with our clients. If you’re serious about making progress, book your time now.',
+    ‘This call gives you clarity on whether Project is the right fit for where you are now.’,
+    ‘’,
+    ‘Use the link below to find a time that works for you.’,
     '',
     bookingUrl,
     '',
@@ -160,8 +160,7 @@ async function sendApplicantConfirmation(payload: ApplyRequestBody) {
                 <li>Identify what has been holding you back</li>
                 <li>Walk through what coaching would look like for you</li>
               </ul>
-              <p style="margin:0 0 12px 0;">This call gives you clarity on your direction and whether Project is the right fit.</p>
-              <p style="margin:0 0 20px 0;">Spots are limited each week so we can stay hands-on with our clients. If you’re serious about making progress, book your time now.</p>
+              <p style="margin:0 0 20px 0;">This call gives you clarity on whether Project is the right fit for where you are now.</p>
               <table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 16px 0;">
                 <tr>
                   <td bgcolor="#0e0e0e" style="padding:14px 22px; text-align:center;">

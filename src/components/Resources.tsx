@@ -17,10 +17,10 @@ export default function Resources() {
       <div className="section-header flex-col lg:flex-row">
         <div>
           <p className="eyebrow">Resources</p>
-          <h2 className="h2 text-white mt-4">Level up between sessions.</h2>
+          <h2 className="h2 text-white mt-4">Build the foundation before you apply.</h2>
         </div>
         <p className="p lg:max-w-md mt-6 lg:mt-0">
-          Long-form articles, training templates, and challenges to keep you plugged into the process.
+          Practical content on training, nutrition, and performance for executives who want to move with intention.
         </p>
       </div>
       <div className="mt-12 grid gap-6 md:grid-cols-2">
@@ -32,7 +32,7 @@ export default function Resources() {
           <div>
             <h3 className="text-white text-xl font-semibold">The project. Newsletter</h3>
             <p className="text-sm text-brand-muted mt-4">
-              Weekly breakdowns on training variables, recovery tactics, and mindset.
+              Weekly insight on training, recovery, and performance for high-output professionals.
             </p>
           </div>
           <NewsletterForm />
@@ -43,9 +43,9 @@ export default function Resources() {
           whileHover={{ rotateX: -2, rotateY: 2, scale: 1.02 }}
         >
           <div>
-            <h3 className="text-white text-xl font-semibold">Free 7-Day Kickstart Challenge</h3>
+            <h3 className="text-white text-xl font-semibold">7-Day Executive Performance Protocol</h3>
             <p className="text-sm text-brand-muted mt-4">
-              Your launchpad to reset your body and mindset.
+              A structured 7-day framework to establish consistent training and nutrition habits — built for a demanding schedule.
             </p>
           </div>
           <a

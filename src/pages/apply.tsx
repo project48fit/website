@@ -136,12 +136,12 @@ export default function ApplyPage({ bookingUrl }: ApplyPageProps) {
       <div className="mx-auto flex w-full max-w-6xl flex-col gap-12 lg:flex-row lg:gap-16">
         <div className="flex-1 space-y-8">
           <div className="space-y-4">
-            <p className="text-xs uppercase tracking-[0.35em] text-white/60">1:1 Online Coaching</p>
+            <p className="text-xs uppercase tracking-[0.35em] text-white/60">1:1 Executive Coaching</p>
             <h1 className="text-3xl font-semibold leading-tight text-white md:text-4xl">
-              Coaching for people who want structure, accountability, and real results.
+              Private coaching for executives who want structure, accountability, and measurable performance.
             </h1>
             <p className="text-base text-white/70">
-              Personalized training and nutrition. Weekly check-ins. No guesswork.
+              Personalized training and nutrition built around your schedule. Weekly check-ins. Direct coach access.
             </p>
             <p className="text-sm text-white/60">Apply in 2 minutes</p>
           </div>
@@ -149,9 +149,9 @@ export default function ApplyPage({ bookingUrl }: ApplyPageProps) {
           <div className="space-y-4">
             <h2 className="text-lg font-semibold text-white">Who it’s for</h2>
             <ul className="space-y-3 text-sm text-white/70">
-              <li>Busy professionals who need a clear plan and accountability.</li>
-              <li>People tired of plateaus and guessing what to do next.</li>
-              <li>Anyone who wants coaching that fits real life.</li>
+              <li>Executives and founders with demanding schedules who need a structured system, not a generic plan.</li>
+              <li>Leaders whose energy and physical output aren’t keeping pace with their professional demands.</li>
+              <li>Professionals who understand the value of expert accountability and want to treat health as a performance asset.</li>
             </ul>
           </div>
 
@@ -167,16 +167,16 @@ export default function ApplyPage({ bookingUrl }: ApplyPageProps) {
             </div>
           </div>
 
-          <div className="space-y-4">
-            <h2 className="text-lg font-semibold text-white">Trusted by clients who want real change</h2>
-            <ul className="space-y-3 text-sm text-white/70">
-              <li>Weekly check-ins that keep you consistent.</li>
-              <li>Programming built around your schedule.</li>
-              <li>Clear feedback and fast adjustments.</li>
+          <div className=”space-y-4”>
+            <h2 className=”text-lg font-semibold text-white”>What you can expect</h2>
+            <ul className=”space-y-3 text-sm text-white/70”>
+              <li>Weekly check-ins that keep you consistent regardless of how demanding your week gets.</li>
+              <li>Programming built around your schedule, travel, and performance goals.</li>
+              <li>Clear feedback and fast adjustments from a coach who knows your program.</li>
             </ul>
-            <p className="text-sm text-white/60">
-              “I finally have a plan I can actually stick to. Progress is measurable every week.”
-              <span className="block text-white/50">— Online Coaching Client</span>
+            <p className=”text-sm text-white/60”>
+              “The accountability and commitment that comes with investing in Project is the difference maker.”
+              <span className=”block text-white/50”>— Keith T., Executive Coaching Client</span>
             </p>
           </div>
         </div>
@@ -262,9 +262,10 @@ export default function ApplyPage({ bookingUrl }: ApplyPageProps) {
                     {...register('primary_goal', { required: 'Primary goal is required.' })}
                   >
                     <option value="">Select</option>
-                    <option value="Fat loss">Fat loss</option>
+                    <option value="Body composition">Body composition</option>
                     <option value="Muscle gain">Muscle gain</option>
                     <option value="Strength">Strength</option>
+                    <option value="Energy & performance">Energy &amp; performance</option>
                     <option value="Overall health">Overall health</option>
                     <option value="Other">Other</option>
                   </select>

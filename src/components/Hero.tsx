@@ -29,13 +29,13 @@ export default function Hero() {
           }}
         >
           <motion.p className="eyebrow text-white/70" variants={fadeInUp}>
-            Executive Fitness Coaching
+            Executive Health &amp; Performance
           </motion.p>
           <motion.h1 className="h1 max-w-2xl mt-6 text-white leading-tight" variants={fadeInUp}>
-            <span className="block">Private coaching for founders who need energy, clarity, and a body that performs.</span>
+            <span className="block">Private coaching for executives who need energy, clarity, and a body that performs.</span>
           </motion.h1>
           <motion.p className="p max-w-lg mt-5 text-white/75" variants={fadeInUp}>
-            Strength training, conditioning, and nutrition guidance built for high responsibility schedules and travel.
+            Personalized training, nutrition, and accountability built around the demands of executive life.
           </motion.p>
           <motion.div className="mt-10 flex flex-wrap items-center gap-4" variants={fadeInUp}>
             <Link href="/apply" className="btn-primary">Request Private Coaching</Link>

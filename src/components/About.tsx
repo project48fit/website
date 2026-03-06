@@ -4,19 +4,19 @@ import { fadeInUp, fadeInScale } from '../lib/motion';
 
 const APPROACH_CARDS = [
   {
-    title: 'Training Architecture',
+    title: ‘Training Architecture’,
     description:
-      'We believe health is not a destination but a way of life. It’s the daily disciplines, the consistent choices, the quiet dedication that defines who we are.'
+      ‘Fully custom programming built around your schedule, travel, and performance goals — periodized, adjusted weekly, and designed to compound over time.’
   },
   {
-    title: 'Performance Nutrition',
+    title: ‘Performance Nutrition’,
     description:
-      'Macro targets and meal structure that fuel your sessions, support recovery, and make sense in real life.'
+      ‘Macro targets and meal structure that fuel your output, support recovery, and integrate into the demands of an executive schedule.’
   },
   {
-    title: 'Accountability Systems',
+    title: ‘Accountability Systems’,
     description:
-      'Weekly check-ins, data-backed adjustments, and habits coaching so you stay moving forward.'
+      ‘Weekly check-ins, data-backed adjustments, and direct coach access that keep you progressing regardless of how demanding your week gets.’
   }
 ];
 
@@ -24,12 +24,12 @@ const TEAM_MEMBERS = [
   {
     name: 'Birk',
     img: '/assets/images/team_birk.JPEG',
-    bio: 'Birk Hanson has been training clients since 2023. He will handle all business operations and be your point of contact for onboarding.'
+    bio: 'Birk Hanson leads client experience and operations at project. He is your primary point of contact — from onboarding through every stage of your coaching engagement.'
   },
   {
     name: 'Caleb',
     img: '/assets/images/team_caleb.JPEG',
-    bio: 'Caleb Thompson is a certified trainer & nutritionist. He has been training since 2022. Caleb will build out your exercise and meal plans. You can expect weekly check-ins with Caleb.'
+    bio: 'Caleb Thompson is a certified trainer and nutritionist who builds and manages every client program. Expect weekly check-ins, precise adjustments, and a plan that evolves with your performance.'
   }
 ];
 
@@ -54,7 +54,7 @@ export default function About() {
         </div>
         <p className="p md:max-w-md mt-6 md:mt-0">
           Every plan is built from the ground up: detailed intake, phase-based training,
-          nutrition calibrated to your lifestyle, and real humans behind your weekly adjustments.
+          nutrition calibrated to your lifestyle, and dedicated coaches behind your weekly adjustments.
         </p>
       </div>
       <motion.div
@@ -112,15 +112,14 @@ export default function About() {
             Coaches who live the lifestyle—and guide you through yours.
           </h3>
           <p className="text-base md:text-lg leading-relaxed text-brand-muted mt-6">
-            project. is a tight-knit coaching duo led by Birk and Caleb. We blend data-backed strength
-            training with the honesty and accountability you need to keep showing up, rep after rep.
+            project. is a performance coaching operation led by Birk and Caleb. We build structured, data-backed programs for executives who want to treat their health as seriously as their business.
           </p>
           <p className="text-base md:text-lg leading-relaxed text-brand-muted mt-4">
-            Expect thoughtful progression, weekly feedback, and a plan that flexes with your schedule.
-            We coach the same way we train—with intention, attention to detail, and relentless follow-through.
+            Expect precise programming, weekly feedback, and a system that adapts to your schedule — not the other way around.
+            We coach with intention, attention to detail, and the same standard of follow-through we expect from our clients.
           </p>
           <div className="mt-8 text-white/70 text-sm uppercase tracking-[0.35em]">
-            Inside the project. · Training · Community · Cohesion
+            Programming · Nutrition · Performance
           </div>
         </div>
       </div>

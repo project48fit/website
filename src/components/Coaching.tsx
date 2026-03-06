@@ -16,11 +16,11 @@ export default function Coaching() {
       <div className="section-header flex-col lg:flex-row" >
         <div>
           <p className="eyebrow">Coaching Tiers</p>
-          <h2 className="h2 text-white mt-4">Choose the level of support that keeps you progressing.</h2>
+          <h2 className="h2 text-white mt-4">Choose the level of support that fits your goals.</h2>
         </div>
         <p className="p lg:max-w-md mt-6 lg:mt-0">
-          Both tiers include individualized programming, progress tracking, and weekly adjustments.
-          Add nutrition to align fueling with training demands and body composition goals.
+          Both tiers include personalized programming, nutrition guidance, and direct access to your coach.
+          Elite adds a fully customized meal plan and concierge-level support for executives who want deeper optimization.
         </p>
       </div>
       <div className="mt-12 grid gap-6 md:grid-cols-2">
@@ -29,23 +29,31 @@ export default function Coaching() {
           variants={fadeInScale}
           whileHover={{ rotateX: -2, rotateY: 2, scale: 1.02 }}
         >
-          <span className="eyebrow text-brand-accent">Performance Coaching</span>
+          <span className="eyebrow text-brand-accent">Executive Health &amp; Performance Advisory</span>
           <h3 className="text-white text-2xl font-semibold mt-4">$250 / month</h3>
           <p className="text-sm text-brand-muted mt-3">
-            The complete training partnership for strength athletes and high performers.
+            A structured coaching system for executives who want professional accountability for their health and performance.
           </p>
           <ul className="mt-6 space-y-3 text-sm text-white/90">
             <li className="flex items-start gap-3">
               <span className="mt-1 h-2 w-2 rounded-full bg-brand-accent" />
-              <span>Fully custom periodized training with RPE, tempo, and accessory detail.</span>
+              <span>Personalized training program built around your schedule and goals.</span>
             </li>
             <li className="flex items-start gap-3">
               <span className="mt-1 h-2 w-2 rounded-full bg-brand-accent" />
-              <span>Weekly video check-ins with movement review and adjustments.</span>
+              <span>Personalized nutrition guidance aligned with your training demands.</span>
             </li>
             <li className="flex items-start gap-3">
               <span className="mt-1 h-2 w-2 rounded-full bg-brand-accent" />
-              <span>Unlimited chat support inside our coaching platform.</span>
+              <span>Monthly strategy call with your coach.</span>
+            </li>
+            <li className="flex items-start gap-3">
+              <span className="mt-1 h-2 w-2 rounded-full bg-brand-accent" />
+              <span>Weekly progress tracking and program adjustments.</span>
+            </li>
+            <li className="flex items-start gap-3">
+              <span className="mt-1 h-2 w-2 rounded-full bg-brand-accent" />
+              <span>Ongoing accountability and 24/7 chat support.</span>
             </li>
           </ul>
         </motion.div>
@@ -56,23 +64,31 @@ export default function Coaching() {
         >
           <div className="absolute inset-0 bg-brand-accentSoft blur-3xl opacity-60" />
           <div className="relative">
-            <span className="eyebrow text-brand-accent">Nutrition Add-On</span>
-            <h3 className="text-white text-2xl font-semibold mt-4">+ $100 / month</h3>
+            <span className="eyebrow text-brand-accent">Executive Performance Elite</span>
+            <h3 className="text-white text-2xl font-semibold mt-4">$500 / month</h3>
             <p className="text-sm text-brand-muted mt-3">
-              Layer in performance nutrition for body composition changes and competitive prep.
+              A high-touch performance partnership for executives who want deeper optimization and higher accountability.
             </p>
             <ul className="mt-6 space-y-3 text-sm text-white/90">
               <li className="flex items-start gap-3">
                 <span className="mt-1 h-2 w-2 rounded-full bg-white" />
-                <span>Macro strategy aligned with training phases and energy demands.</span>
+                <span>Everything in Advisory, plus:</span>
               </li>
               <li className="flex items-start gap-3">
                 <span className="mt-1 h-2 w-2 rounded-full bg-white" />
-                <span>Weekly nutrition feedback loop with habit coaching.</span>
+                <span>Fully customized meal plan tailored to your lifestyle and travel schedule.</span>
               </li>
               <li className="flex items-start gap-3">
                 <span className="mt-1 h-2 w-2 rounded-full bg-white" />
-                <span>Supplement and recovery guidance tailored to labs and lifestyle.</span>
+                <span>More frequent coaching interaction and faster response times.</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="mt-1 h-2 w-2 rounded-full bg-white" />
+                <span>Higher flexibility and personalization as your schedule shifts.</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="mt-1 h-2 w-2 rounded-full bg-white" />
+                <span>Concierge-level support from your coach.</span>
               </li>
             </ul>
           </div>

@@ -1,0 +1,44 @@
+#!/bin/sh
+# Block commits that contain curly/smart quotes in TypeScript files.
+# These cause "Invalid character" TypeScript build errors on Vercel.
+
+CURLY_PATTERN=$'\xe2\x80\x98\|\xe2\x80\x99\|\xe2\x80\x9c\|\xe2\x80\x9d'
+
+FILES=$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.(ts|tsx)$')
+
+if [ -z "$FILES" ]; then
+  exit 0
+fi
+
+FOUND=0
+for FILE in $FILES; do
+  if LC_ALL=C grep -Pq '\x{e2}\x{80}[\x{98}\x{99}\x{9c}\x{9d}]' "$FILE" 2>/dev/null || \
+     python3 -c "
+import sys
+data = open('$FILE','rb').read()
+bad = [b'\xe2\x80\x98', b'\xe2\x80\x99', b'\xe2\x80\x9c', b'\xe2\x80\x9d']
+sys.exit(0 if any(b in data for b in bad) else 1)
+" 2>/dev/null; then
+    echo "  $FILE"
+    FOUND=1
+  fi
+done
+
+if [ "$FOUND" -eq 1 ]; then
+  echo ""
+  echo "ERROR: Curly/smart quotes detected in staged TypeScript files (listed above)."
+  echo "These cause TypeScript build failures on Vercel."
+  echo ""
+  echo "Fix by running:"
+  echo "  python3 -c \""
+  echo "  import sys; path=sys.argv[1]"
+  echo "  d=open(path,'rb').read()"
+  echo "  for old,new in [(b'\\xe2\\x80\\x98',b\\\"'\\\"),(b'\\xe2\\x80\\x99',b\\\"'\\\"),(b'\\xe2\\x80\\x9c',b'\\\"'),(b'\\xe2\\x80\\x9d',b'\\\"')]:"
+  echo "    d=d.replace(old,new)"
+  echo "  open(path,'wb').write(d)"
+  echo "  \" <file>"
+  echo ""
+  exit 1
+fi
+
+exit 0

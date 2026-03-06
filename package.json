@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "lint": "eslint .",
-    "start": "next start"
+    "start": "next start",
+    "prepare": "git config core.hooksPath .githooks || true"
   },
   "dependencies": {
     "framer-motion": "^12.23.24",

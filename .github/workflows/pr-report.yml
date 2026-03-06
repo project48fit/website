@@ -49,6 +49,10 @@ jobs:
           const sha = pr.head?.sha || '';
           const owner = pr.base?.repo?.owner?.login || '';
           const repo = pr.base?.repo?.name || '';
+          const summaryText = (pr.body || '').trim();
+          const summaryLine = summaryText
+            ? summaryText.split('\n').find((line) => line.trim()) || ''
+            : 'No summary provided.';
 
           async function getPreviewUrlFromVercel() {
             const token = process.env.VERCEL_TOKEN;
@@ -134,7 +138,7 @@ jobs:
             const payload = {
               from: 'Project Fitness <marketing@notifications.projectfitness.co>',
               to: [to],
-              subject: `PR Report: ${title}`,
+              subject: `PR ready: ${title}`,
               text: body
             };
 
@@ -165,12 +169,19 @@ jobs:
               : 'Preview: check the Vercel deployment status on the PR.';
 
             const body = [
-              `PR Title: ${title}`,
-              `PR URL: ${prUrl}`,
+              `PR: ${prUrl}`,
+              previewLine,
               `Branch: ${branch}`,
               `Base: ${base}`,
-              previewLine,
-              `QA: ${lintStatus}`
+              '',
+              'Summary:',
+              `- ${summaryLine || 'No summary provided.'}`,
+              '',
+              'QA:',
+              `- ${lintStatus}`,
+              '',
+              'Rollback:',
+              '- Revert this PR'
             ].join('\n');
 
             await sendEmail(body);
@@ -180,3 +191,4 @@ jobs:
             process.exit(1);
           });
           NODE
+

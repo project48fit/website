@@ -1,7 +1,7 @@
 import { getSupabaseAdmin } from './supabaseAdmin';
 
 const LINKEDIN_API_BASE = 'https://api.linkedin.com/rest';
-const LINKEDIN_VERSION = '20231101';
+const LINKEDIN_VERSION = '202502';
 const TOKEN_REFRESH_BUFFER_SECONDS = 60 * 60 * 24 * 5; // refresh 5 days before expiry
 
 type LinkedInTokenRow = {

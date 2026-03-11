@@ -14,6 +14,7 @@ type LinkedInTokenRow = {
 
 type PostLinkedInParams = {
   content: string;
+  imageUrl?: string;
 };
 
 type PostLinkedInResult = {
@@ -89,11 +90,63 @@ async function getValidToken(): Promise<{ token: string; memberId: string } | nu
   return { token: refreshed.access_token, memberId: row.member_id };
 }
 
-export async function postToLinkedIn({ content }: PostLinkedInParams): Promise<PostLinkedInResult> {
+async function uploadImageToLinkedIn(
+  imageUrl: string,
+  auth: { token: string; memberId: string }
+): Promise<string | null> {
+  const headers = {
+    Authorization: `Bearer ${auth.token}`,
+    'LinkedIn-Version': LINKEDIN_VERSION,
+    'Content-Type': 'application/json',
+    'X-Restli-Protocol-Version': '2.0.0',
+  };
+
+  // Step 1: Initialize upload
+  const initRes = await fetch(`${LINKEDIN_API_BASE}/images?action=initializeUpload`, {
+    method: 'POST',
+    headers,
+    body: JSON.stringify({
+      initializeUploadRequest: { owner: `urn:li:person:${auth.memberId}` },
+    }),
+  });
+  if (!initRes.ok) return null;
+
+  const initData = await initRes.json() as { value?: { uploadUrl?: string; image?: string } };
+  const uploadUrl = initData?.value?.uploadUrl;
+  const imageUrn = initData?.value?.image;
+  if (!uploadUrl || !imageUrn) return null;
+
+  // Step 2: Fetch image bytes
+  const imgRes = await fetch(imageUrl);
+  if (!imgRes.ok) return null;
+  const imgBuffer = await imgRes.arrayBuffer();
+  const contentType = imgRes.headers.get('content-type') ?? 'image/jpeg';
+
+  // Step 3: Upload bytes to LinkedIn's upload URL
+  const uploadRes = await fetch(uploadUrl, {
+    method: 'PUT',
+    headers: {
+      Authorization: `Bearer ${auth.token}`,
+      'Content-Type': contentType,
+    },
+    body: imgBuffer,
+  });
+  if (!uploadRes.ok) return null;
+
+  return imageUrn;
+}
+
+export async function postToLinkedIn({ content, imageUrl }: PostLinkedInParams): Promise<PostLinkedInResult> {
   const auth = await getValidToken();
   if (!auth) return { ok: false, error: 'No valid LinkedIn access token. Re-authorize at /admin/linkedin.' };
 
-  const body = {
+  // Attempt image upload if imageUrl provided; fall back to text-only on failure
+  let imageUrn: string | null = null;
+  if (imageUrl) {
+    imageUrn = await uploadImageToLinkedIn(imageUrl, auth);
+  }
+
+  const body: Record<string, unknown> = {
     author: `urn:li:person:${auth.memberId}`,
     commentary: content,
     visibility: 'PUBLIC',
@@ -105,6 +158,10 @@ export async function postToLinkedIn({ content }: PostLinkedInParams): Promise<P
     lifecycleState: 'PUBLISHED',
     isReshareDisabledByAuthor: false,
   };
+
+  if (imageUrn) {
+    body.content = { media: { id: imageUrn } };
+  }
 
   const res = await fetch(`${LINKEDIN_API_BASE}/posts`, {
     method: 'POST',

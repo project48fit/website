@@ -3,6 +3,7 @@ import { postToLinkedIn } from '../../../lib/linkedinPost';
 
 type PostBody = {
   content?: string;
+  imageUrl?: string;
 };
 
 // POST /api/linkedin/post
@@ -25,7 +26,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
   }
 
-  const { content } = req.body as PostBody;
+  const { content, imageUrl } = req.body as PostBody;
 
   if (!content || content.trim().length === 0) {
     return res.status(400).json({ error: 'content is required.' });
@@ -35,7 +36,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(400).json({ error: 'content exceeds LinkedIn 3000 character limit.' });
   }
 
-  const result = await postToLinkedIn({ content: content.trim() });
+  const result = await postToLinkedIn({ content: content.trim(), imageUrl });
 
   if (!result.ok) {
     return res.status(500).json({ error: result.error });

@@ -141,7 +141,7 @@ export default function ApplyPage({ bookingUrl }: ApplyPageProps) {
               Structure, accountability, and measurable performance — built around your life.
             </h1>
             <p className="text-base text-white/60 leading-relaxed">
-              Personalized training and nutrition built around your schedule. Weekly check-ins. Direct coach access. Apply in 2 minutes.
+              Personalized training and nutrition built around your schedule. Direct coach access. Apply in 2 minutes.
             </p>
           </div>
 
@@ -165,7 +165,7 @@ export default function ApplyPage({ bookingUrl }: ApplyPageProps) {
             <p className="text-xs uppercase tracking-[0.3em] text-white/40">What to expect</p>
             <ul className="space-y-3">
               {[
-                'Weekly check-ins that keep you consistent regardless of your schedule.',
+                'Consistent accountability check-ins that keep you on track regardless of your schedule.',
                 'Programming adapted to your travel, goals, and recovery.',
                 'Fast feedback from a coach who knows your program inside out.',
               ].map((item) => (

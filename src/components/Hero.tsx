@@ -31,7 +31,7 @@ export default function Hero() {
           <motion.p className="eyebrow text-white/55" variants={fadeInUp}>
             Executive Health &amp; Performance
           </motion.p>
-          <motion.h1 className="h1 max-w-2xl mt-8 text-white leading-[1.1]" variants={fadeInUp}>
+          <motion.h1 className="h1 max-w-2xl mt-8 text-white leading-[1.2]" variants={fadeInUp}>
             Private coaching for executives who need energy, clarity, and a body that performs.
           </motion.h1>
           <motion.p className="p max-w-md mt-8 text-white/60 leading-relaxed" variants={fadeInUp}>

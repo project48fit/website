@@ -12,11 +12,18 @@
   --signal: #F2503A;
   color-scheme: dark;
 }
-html, body, #__next {
+html {
   height: 100%;
-  background: linear-gradient(180deg, rgba(5,5,6,1) 0%, rgba(12,13,16,1) 40%, rgba(20,22,26,1) 100%);
+  background-color: #14161A;
+}
+body {
+  min-height: 100%;
+  background: linear-gradient(180deg, rgba(5,5,6,1) 0%, rgba(12,13,16,1) 18%, rgba(20,22,26,1) 55%, rgba(20,22,26,1) 100%);
   color: var(--text);
   font-family: "Inter", "Helvetica Neue", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+#__next {
+  min-height: 100%;
 }
 
 @font-face {

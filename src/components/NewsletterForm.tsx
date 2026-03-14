@@ -40,28 +40,30 @@ export default function NewsletterForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
+    <form onSubmit={handleSubmit} className="mt-6 flex flex-col gap-3">
       <input
         type="email"
         name="email"
-        placeholder="you@email.com"
+        placeholder="your@email.com"
         value={email}
         onChange={handleChange}
         required
-        className="form-input-pill"
+        className="form-input-pill w-full"
       />
-      <button
-        type="submit"
-        className="btn-primary whitespace-nowrap disabled:opacity-60 disabled:cursor-not-allowed"
-        disabled={status === 'loading'}
-      >
-        {status === 'loading' ? 'Submitting…' : 'Join Newsletter'}
-      </button>
-      {status !== 'idle' && (
-        <p className={`text-xs uppercase tracking-[0.25em] ${status === 'success' ? 'text-brand-accent' : 'text-red-400'} sm:ml-4 sm:mt-0`}>
-          {message}
-        </p>
-      )}
+      <div className="flex items-center gap-4">
+        <button
+          type="submit"
+          className="btn-primary whitespace-nowrap disabled:opacity-60 disabled:cursor-not-allowed"
+          disabled={status === 'loading'}
+        >
+          {status === 'loading' ? 'Submitting…' : 'Subscribe'}
+        </button>
+        {status !== 'idle' && (
+          <p className={`text-xs uppercase tracking-[0.25em] ${status === 'success' ? 'text-brand-accent' : 'text-red-400'}`}>
+            {message}
+          </p>
+        )}
+      </div>
     </form>
   );
 }

@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import Image from 'next/image';
 import NewsletterForm from './NewsletterForm';
 
 const NAV_LINKS = [
@@ -27,32 +26,20 @@ const SOCIAL_LINKS = [
 export default function Footer() {
   return (
     <footer className="border-t border-white/[0.06] bg-black/50 backdrop-blur">
-      {/* Newsletter strip */}
-      <div className="border-b border-white/[0.06]">
-        <div className="container px-6 md:px-8 py-12">
-          <div className="max-w-xl">
-            <p className="eyebrow text-white/50 mb-3">The project. Newsletter</p>
-            <h3 className="text-white text-xl font-semibold tracking-[-0.01em]">Stay sharp.</h3>
-            <p className="text-sm text-white/50 mt-2">
-              Weekly training, nutrition, and performance insights for executives.
-            </p>
-            <NewsletterForm />
-          </div>
-        </div>
-      </div>
-
       {/* Main footer grid */}
-      <div className="container px-6 md:px-8 py-12 flex flex-col gap-12 lg:flex-row lg:items-start lg:justify-between">
-        <div className="inline-flex items-center justify-center overflow-hidden rounded-[1.75rem] border border-white/[0.08] bg-brand-accent/90 px-6 py-4 shadow-[0_24px_55px_-30px_rgba(242,237,224,0.9)] sm:px-10 sm:py-5">
-          <Image
-            src="/assets/images/1.png"
-            alt="project."
-            width={220}
-            height={70}
-            className="w-full max-w-[220px] object-contain"
-          />
+      <div className="container px-6 md:px-8 py-14 flex flex-col gap-14 lg:flex-row lg:items-start lg:justify-between">
+
+        {/* Newsletter — replaces logo */}
+        <div className="lg:max-w-xs">
+          <p className="eyebrow text-white/50 mb-3">The project. Newsletter</p>
+          <h3 className="text-white text-lg font-semibold tracking-[-0.01em]">Stay sharp.</h3>
+          <p className="text-sm text-white/50 mt-2 leading-relaxed">
+            Weekly training, nutrition, and performance insights for executives.
+          </p>
+          <NewsletterForm />
         </div>
 
+        {/* Nav + Social */}
         <div className="grid w-full gap-10 sm:grid-cols-2 lg:w-auto">
           <div>
             <p className="eyebrow text-white/50">Navigation</p>
@@ -77,8 +64,9 @@ export default function Footer() {
                     rel="noopener noreferrer"
                     className="group flex items-center gap-3 hover:text-white transition"
                   >
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
                     <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/[0.07] text-white group-hover:bg-white/15 transition-colors">
-                      <Image src={social.icon} alt={social.label} width={18} height={18} />
+                      <img src={social.icon} alt={social.label} width={18} height={18} />
                     </span>
                     <span>{social.handle}</span>
                   </a>

@@ -18,7 +18,7 @@ export default function Hero() {
       </video>
       <div className="absolute inset-0 bg-gradient-to-r from-black via-black/75 to-black/20" />
       <div className="absolute inset-0 bg-black/35" />
-      <div className="container relative z-10 grid gap-16 md:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] items-center pt-32 pb-20 md:pt-40 md:pb-32">
+      <div className="container relative z-10 grid gap-16 md:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] items-center pt-36 pb-24 md:pt-44 md:pb-36">
         <motion.div
           initial="hidden"
           animate="visible"
@@ -28,13 +28,13 @@ export default function Hero() {
             }
           }}
         >
-          <motion.p className="eyebrow text-white/60" variants={fadeInUp}>
+          <motion.p className="eyebrow text-white/55" variants={fadeInUp}>
             Executive Health &amp; Performance
           </motion.p>
-          <motion.h1 className="h1 max-w-2xl mt-8 text-white leading-[1.08]" variants={fadeInUp}>
+          <motion.h1 className="h1 max-w-2xl mt-8 text-white leading-[1.1]" variants={fadeInUp}>
             Private coaching for executives who need energy, clarity, and a body that performs.
           </motion.h1>
-          <motion.p className="p max-w-md mt-7 text-white/65 leading-relaxed" variants={fadeInUp}>
+          <motion.p className="p max-w-md mt-8 text-white/60 leading-relaxed" variants={fadeInUp}>
             Personalized training, nutrition, and accountability built around the demands of executive life.
           </motion.p>
           <motion.div className="mt-12 flex flex-wrap items-center gap-5" variants={fadeInUp}>

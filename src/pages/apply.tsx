@@ -132,53 +132,55 @@ export default function ApplyPage({ bookingUrl }: ApplyPageProps) {
   };
 
   return (
-    <PageLayout withDefaultPadding={false} mainClassName="px-5 pt-24 pb-16">
-      <div className="mx-auto flex w-full max-w-6xl flex-col gap-12 lg:flex-row lg:gap-16">
-        <div className="flex-1 space-y-8">
-          <div className="space-y-4">
-            <p className="text-xs uppercase tracking-[0.35em] text-white/60">1:1 Executive Coaching</p>
-            <h1 className="text-3xl font-semibold leading-tight text-white md:text-4xl">
-              Private coaching for executives who want structure, accountability, and measurable performance.
+    <PageLayout withDefaultPadding={false} mainClassName="px-5 pt-28 pb-16">
+      <div className="mx-auto flex w-full max-w-6xl flex-col gap-12 lg:flex-row lg:gap-20">
+        <div className="flex-1 space-y-10">
+          <div className="space-y-5">
+            <p className="text-xs uppercase tracking-[0.35em] text-white/50">1:1 Executive Coaching</p>
+            <h1 className="text-3xl font-semibold leading-[1.1] text-white md:text-[2.5rem] tracking-[-0.01em]">
+              Structure, accountability, and measurable performance — built around your life.
             </h1>
-            <p className="text-base text-white/70">
-              Personalized training and nutrition built around your schedule. Weekly check-ins. Direct coach access.
+            <p className="text-base text-white/60 leading-relaxed">
+              Personalized training and nutrition built around your schedule. Weekly check-ins. Direct coach access. Apply in 2 minutes.
             </p>
-            <p className="text-sm text-white/60">Apply in 2 minutes</p>
           </div>
 
           <div className="space-y-4">
-            <h2 className="text-lg font-semibold text-white">Who it's for</h2>
-            <ul className="space-y-3 text-sm text-white/70">
-              <li>Executives and founders with demanding schedules who need a structured system, not a generic plan.</li>
-              <li>Leaders whose energy and physical output aren't keeping pace with their professional demands.</li>
-              <li>Professionals who understand the value of expert accountability and want to treat health as a performance asset.</li>
-            </ul>
-          </div>
-
-          <div className="space-y-4">
-            <h2 className="text-lg font-semibold text-white">How it works</h2>
-            <div className="grid gap-3 sm:grid-cols-3">
-              {['Apply', 'Book', 'Start'].map((step, index) => (
-                <div key={step} className="rounded-2xl border border-white/10 bg-white/5 p-4 text-sm">
-                  <div className="text-xs uppercase tracking-[0.3em] text-white/50">Step {index + 1}</div>
-                  <div className="mt-2 text-base font-medium text-white">{step}</div>
-                </div>
+            <p className="text-xs uppercase tracking-[0.3em] text-white/40">Who it's for</p>
+            <ul className="space-y-3">
+              {[
+                'Executives and founders who need a structured system, not a generic plan.',
+                'Leaders whose physical output isn\'t keeping pace with professional demands.',
+                'Professionals who treat health as a performance asset and want expert accountability.',
+              ].map((item) => (
+                <li key={item} className="flex items-start gap-3 text-sm text-white/65">
+                  <span className="mt-[7px] h-1 w-1 rounded-full bg-brand-accent flex-shrink-0" />
+                  {item}
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
 
           <div className="space-y-4">
-            <h2 className="text-lg font-semibold text-white">What you can expect</h2>
-            <ul className="space-y-3 text-sm text-white/70">
-              <li>Weekly check-ins that keep you consistent regardless of how demanding your week gets.</li>
-              <li>Programming built around your schedule, travel, and performance goals.</li>
-              <li>Clear feedback and fast adjustments from a coach who knows your program.</li>
+            <p className="text-xs uppercase tracking-[0.3em] text-white/40">What to expect</p>
+            <ul className="space-y-3">
+              {[
+                'Weekly check-ins that keep you consistent regardless of your schedule.',
+                'Programming adapted to your travel, goals, and recovery.',
+                'Fast feedback from a coach who knows your program inside out.',
+              ].map((item) => (
+                <li key={item} className="flex items-start gap-3 text-sm text-white/65">
+                  <span className="mt-[7px] h-1 w-1 rounded-full bg-brand-accent flex-shrink-0" />
+                  {item}
+                </li>
+              ))}
             </ul>
-            <p className="text-sm text-white/60">
-              "The accountability and commitment that comes with investing in Project is the difference maker."
-              <span className="block text-white/50">— Keith T., Executive Coaching Client</span>
-            </p>
           </div>
+
+          <p className="text-sm text-white/40 italic border-l border-white/10 pl-4">
+            "The accountability and commitment that comes with investing in Project is the difference maker."
+            <span className="block not-italic text-white/30 mt-1">— Keith T., Executive Coaching Client</span>
+          </p>
         </div>
 
         <div id="application" className="w-full max-w-xl flex-1">

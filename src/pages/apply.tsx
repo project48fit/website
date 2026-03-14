@@ -15,7 +15,7 @@ type LeadForm = {
   phone: string;
   primary_goal: string;
   training_days_per_week: string;
-  consult_availability: string;
+  program: string;
   start_timeframe: string;
   goals_detail: string;
   company_website: string;
@@ -50,7 +50,7 @@ export default function ApplyPage({ bookingUrl }: ApplyPageProps) {
       phone: '',
       primary_goal: '',
       training_days_per_week: '',
-      consult_availability: '',
+      program: '',
       start_timeframe: '',
       goals_detail: '',
       company_website: ''
@@ -329,23 +329,21 @@ export default function ApplyPage({ bookingUrl }: ApplyPageProps) {
                   </div>
                   <div>
                     <label className="block text-xs uppercase tracking-[0.3em] text-white/60">
-                      Consult availability
+                      Program
                     </label>
                     <select
                       className="mt-2 w-full rounded-xl border border-white/[0.12] bg-black/40 px-4 py-3 text-sm text-white outline-none focus:border-brand-accent transition-colors"
-                      {...register('consult_availability', {
-                        required: 'Availability is required.'
+                      {...register('program', {
+                        required: 'Please select a program.'
                       })}
                     >
                       <option value="">Select</option>
-                      <option value="Mornings">Mornings</option>
-                      <option value="Lunch">Lunch</option>
-                      <option value="Evenings">Evenings</option>
-                      <option value="Flexible">Flexible</option>
+                      <option value="Advisory">Advisory — $250 / mo</option>
+                      <option value="Elite">Elite — $500 / mo</option>
                     </select>
-                    {errors.consult_availability && (
+                    {errors.program && (
                       <p className="mt-2 text-xs text-red-400">
-                        {errors.consult_availability.message}
+                        {errors.program.message}
                       </p>
                     )}
                   </div>

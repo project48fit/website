@@ -182,7 +182,36 @@ export default function ApplyPage({ bookingUrl }: ApplyPageProps) {
         </div>
 
         <div id="application" className="w-full max-w-xl flex-1">
-          <div className="rounded-3xl border border-white/10 bg-white/5 p-6 md:p-8">
+          {/* Step progress indicator */}
+          <div className="mb-6 flex items-center">
+            {[{ n: 1, label: 'Apply' }, { n: 2, label: 'Book' }, { n: 3, label: 'Start' }].map(({ n, label }, i) => (
+              <div key={n} className="flex items-center flex-1 last:flex-none">
+                <div className="flex flex-col items-center">
+                  <div
+                    className={`h-7 w-7 rounded-full flex items-center justify-center text-[0.6rem] font-semibold border transition-colors ${
+                      (n === 1 && status !== 'success') || (n === 2 && status === 'success')
+                        ? 'bg-brand-accent border-brand-accent text-black'
+                        : 'bg-transparent border-white/20 text-white/35'
+                    }`}
+                  >
+                    {n}
+                  </div>
+                  <span className={`mt-1.5 text-[0.6rem] uppercase tracking-[0.2em] ${
+                    (n === 1 && status !== 'success') || (n === 2 && status === 'success')
+                      ? 'text-brand-accent'
+                      : 'text-white/30'
+                  }`}>{label}</span>
+                </div>
+                {i < 2 && (
+                  <div className={`flex-1 h-px mx-3 mb-4 ${
+                    (n === 1 && status === 'success') ? 'bg-brand-accent/40' : 'bg-white/10'
+                  }`} />
+                )}
+              </div>
+            ))}
+          </div>
+
+          <div className="rounded-3xl border border-white/[0.08] bg-white/[0.04] p-6 md:p-8">
             {status === 'success' ? (
               <div className="space-y-5">
                 <p className="text-xs uppercase tracking-[0.35em] text-white/60">Application received</p>
@@ -217,7 +246,7 @@ export default function ApplyPage({ bookingUrl }: ApplyPageProps) {
                     Full name
                   </label>
                   <input
-                    className="mt-2 w-full rounded-xl border border-white/15 bg-black/40 px-4 py-3 text-sm text-white outline-none focus:border-white/40"
+                    className="mt-2 w-full rounded-xl border border-white/[0.12] bg-black/40 px-4 py-3 text-sm text-white outline-none focus:border-brand-accent transition-colors"
                     {...register('full_name', { required: 'Full name is required.' })}
                   />
                   {errors.full_name && (
@@ -231,7 +260,7 @@ export default function ApplyPage({ bookingUrl }: ApplyPageProps) {
                   </label>
                   <input
                     type="email"
-                    className="mt-2 w-full rounded-xl border border-white/15 bg-black/40 px-4 py-3 text-sm text-white outline-none focus:border-white/40"
+                    className="mt-2 w-full rounded-xl border border-white/[0.12] bg-black/40 px-4 py-3 text-sm text-white outline-none focus:border-brand-accent transition-colors"
                     {...register('email', { required: 'Email is required.' })}
                   />
                   {errors.email && (
@@ -245,7 +274,7 @@ export default function ApplyPage({ bookingUrl }: ApplyPageProps) {
                   </label>
                   <input
                     type="tel"
-                    className="mt-2 w-full rounded-xl border border-white/15 bg-black/40 px-4 py-3 text-sm text-white outline-none focus:border-white/40"
+                    className="mt-2 w-full rounded-xl border border-white/[0.12] bg-black/40 px-4 py-3 text-sm text-white outline-none focus:border-brand-accent transition-colors"
                     {...register('phone', { required: 'Phone is required.' })}
                   />
                   {errors.phone && (
@@ -258,7 +287,7 @@ export default function ApplyPage({ bookingUrl }: ApplyPageProps) {
                     Primary goal
                   </label>
                   <select
-                    className="mt-2 w-full rounded-xl border border-white/15 bg-black/40 px-4 py-3 text-sm text-white outline-none focus:border-white/40"
+                    className="mt-2 w-full rounded-xl border border-white/[0.12] bg-black/40 px-4 py-3 text-sm text-white outline-none focus:border-brand-accent transition-colors"
                     {...register('primary_goal', { required: 'Primary goal is required.' })}
                   >
                     <option value="">Select</option>
@@ -280,7 +309,7 @@ export default function ApplyPage({ bookingUrl }: ApplyPageProps) {
                       Training days / week
                     </label>
                     <select
-                      className="mt-2 w-full rounded-xl border border-white/15 bg-black/40 px-4 py-3 text-sm text-white outline-none focus:border-white/40"
+                      className="mt-2 w-full rounded-xl border border-white/[0.12] bg-black/40 px-4 py-3 text-sm text-white outline-none focus:border-brand-accent transition-colors"
                       {...register('training_days_per_week', {
                         required: 'Training days are required.'
                       })}
@@ -301,7 +330,7 @@ export default function ApplyPage({ bookingUrl }: ApplyPageProps) {
                       Consult availability
                     </label>
                     <select
-                      className="mt-2 w-full rounded-xl border border-white/15 bg-black/40 px-4 py-3 text-sm text-white outline-none focus:border-white/40"
+                      className="mt-2 w-full rounded-xl border border-white/[0.12] bg-black/40 px-4 py-3 text-sm text-white outline-none focus:border-brand-accent transition-colors"
                       {...register('consult_availability', {
                         required: 'Availability is required.'
                       })}
@@ -325,7 +354,7 @@ export default function ApplyPage({ bookingUrl }: ApplyPageProps) {
                     Start timeframe
                   </label>
                   <select
-                    className="mt-2 w-full rounded-xl border border-white/15 bg-black/40 px-4 py-3 text-sm text-white outline-none focus:border-white/40"
+                    className="mt-2 w-full rounded-xl border border-white/[0.12] bg-black/40 px-4 py-3 text-sm text-white outline-none focus:border-brand-accent transition-colors"
                     {...register('start_timeframe', { required: 'Start timeframe is required.' })}
                   >
                     <option value="">Select</option>
@@ -344,7 +373,7 @@ export default function ApplyPage({ bookingUrl }: ApplyPageProps) {
                   </label>
                   <textarea
                     rows={4}
-                    className="mt-2 w-full rounded-xl border border-white/15 bg-black/40 px-4 py-3 text-sm text-white outline-none focus:border-white/40"
+                    className="mt-2 w-full rounded-xl border border-white/[0.12] bg-black/40 px-4 py-3 text-sm text-white outline-none focus:border-brand-accent transition-colors"
                     {...register('goals_detail')}
                   />
                 </div>
@@ -352,12 +381,16 @@ export default function ApplyPage({ bookingUrl }: ApplyPageProps) {
                 <button
                   type="submit"
                   disabled={status === 'submitting'}
-                  className="inline-flex w-full items-center justify-center rounded-full bg-white px-6 py-3 text-xs font-semibold uppercase tracking-[0.25em] text-black disabled:opacity-60"
+                  className="btn-primary w-full justify-center disabled:opacity-60"
                 >
                   {status === 'submitting' ? 'Submitting…' : 'Submit application'}
                 </button>
 
-                <p className="text-xs text-white/50">
+                <p className="text-center text-xs text-white/40 tracking-wide">
+                  Free consultation — no commitment required.
+                </p>
+
+                <p className="text-xs text-white/40">
                   By submitting, you agree to be contacted by email/text. Please don't include
                   medical info.{' '}
                   <Link href="/privacy">

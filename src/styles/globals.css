@@ -28,7 +28,7 @@ html, body, #__next {
 }
 
 .btn-primary {
-  @apply inline-flex items-center justify-center px-7 py-3 rounded-full bg-brand-accent text-[#050506] text-sm font-semibold uppercase tracking-[0.2em] hover:bg-white transition-shadow shadow-[0_14px_40px_-20px_rgba(242,237,224,0.8)];
+  @apply inline-flex items-center justify-center px-7 py-3 rounded-full bg-brand-accent text-[#050506] text-sm font-semibold uppercase tracking-[0.2em] hover:bg-white transition-shadow shadow-[0_20px_60px_-20px_rgba(242,237,224,0.65)];
 }
 .btn-secondary {
   @apply inline-flex items-center justify-center px-7 py-3 rounded-full border border-white/20 text-white text-sm uppercase tracking-[0.2em] hover:border-white/40 hover:bg-white/5 transition;
@@ -39,13 +39,13 @@ html, body, #__next {
   @apply block text-sm text-white/80 uppercase tracking-[0.25em];
 }
 .form-input {
-  @apply mt-3 w-full rounded-lg border border-white/15 bg-black/40 px-4 py-3 text-base text-white placeholder:text-white/40 focus:border-brand-accent focus:outline-none focus:ring-0;
+  @apply mt-3 w-full rounded-lg border border-white/[0.12] bg-black/40 px-4 py-3 text-base text-white placeholder:text-white/40 focus:border-brand-accent focus:outline-none focus:ring-0 transition-colors;
 }
 .form-input-pill {
-  @apply w-full rounded-full border border-white/15 bg-black/30 px-5 py-3 text-sm text-white placeholder:text-white/50 focus:border-brand-accent focus:outline-none focus:ring-0;
+  @apply w-full rounded-full border border-white/[0.12] bg-black/30 px-5 py-3 text-sm text-white placeholder:text-white/50 focus:border-brand-accent focus:outline-none focus:ring-0 transition-colors;
 }
 .card {
-  @apply rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm;
+  @apply rounded-2xl border border-white/[0.08] bg-white/[0.04] backdrop-blur-sm;
 }
 .flip-card {
   perspective: 1500px;

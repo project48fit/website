@@ -1,7 +1,7 @@
-.section { @apply container py-12 md:py-20; }
+.section { @apply container py-16 md:py-28; }
 .section-header { @apply flex items-baseline justify-between gap-6; }
-.h1 { @apply text-4xl md:text-[3.5rem] font-semibold tracking-tight; }
-.h2 { @apply text-3xl md:text-[2.75rem] font-semibold tracking-tight; }
+.h1 { @apply text-4xl md:text-[3.5rem] font-semibold tracking-[-0.02em]; }
+.h2 { @apply text-3xl md:text-[2.75rem] font-semibold tracking-[-0.01em]; }
 .eyebrow { @apply text-xs uppercase tracking-[0.35em] text-brand-muted/80; }
 .p  { @apply text-base md:text-lg leading-relaxed text-brand-muted; }
 .stat-value { @apply text-4xl font-semibold text-white; }

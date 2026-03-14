@@ -18,75 +18,59 @@ export default function Hero() {
       </video>
       <div className="absolute inset-0 bg-gradient-to-r from-black via-black/75 to-black/20" />
       <div className="absolute inset-0 bg-black/35" />
-      <div className="container relative z-10 grid gap-12 md:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] items-center md:items-end pt-16 pb-10 md:pt-32 md:pb-24">
+      <div className="container relative z-10 grid gap-16 md:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] items-center pt-32 pb-20 md:pt-40 md:pb-32">
         <motion.div
           initial="hidden"
           animate="visible"
           variants={{
             visible: {
-              transition: { staggerChildren: 0.15 }
+              transition: { staggerChildren: 0.18 }
             }
           }}
         >
-          <motion.p className="eyebrow text-white/70" variants={fadeInUp}>
+          <motion.p className="eyebrow text-white/60" variants={fadeInUp}>
             Executive Health &amp; Performance
           </motion.p>
-          <motion.h1 className="h1 max-w-2xl mt-6 text-white leading-tight" variants={fadeInUp}>
-            <span className="block">Private coaching for executives who need energy, clarity, and a body that performs.</span>
+          <motion.h1 className="h1 max-w-2xl mt-8 text-white leading-[1.08]" variants={fadeInUp}>
+            Private coaching for executives who need energy, clarity, and a body that performs.
           </motion.h1>
-          <motion.p className="p max-w-lg mt-5 text-white/75" variants={fadeInUp}>
+          <motion.p className="p max-w-md mt-7 text-white/65 leading-relaxed" variants={fadeInUp}>
             Personalized training, nutrition, and accountability built around the demands of executive life.
           </motion.p>
-          <motion.div className="mt-10 flex flex-wrap items-center gap-4" variants={fadeInUp}>
+          <motion.div className="mt-12 flex flex-wrap items-center gap-5" variants={fadeInUp}>
             <Link href="/apply" className="btn-primary">Request Private Coaching</Link>
+            <Link href="/coaching" className="btn-secondary text-sm">View Pricing</Link>
           </motion.div>
         </motion.div>
+
         <motion.div
-          className="hidden md:grid gap-4 text-sm"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.3 }}
-          variants={{
-            hidden: { opacity: 0, y: 30 },
-            visible: {
-              opacity: 1,
-              y: 0,
-              transition: { duration: 0.6, staggerChildren: 0.15 }
-            }
-          }}
+          className="hidden md:block"
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
         >
-          <motion.div className="card p-6 border-white/20" variants={fadeInUp}>
-            <span className="stat-label">project. Ethos</span>
-            <p className="text-white text-2xl font-semibold mt-4 leading-snug">
-              project. represents health as a disciplined pursuit,<br />
-              practiced daily with intention.
+          <div className="card p-8 border-white/[0.12] bg-white/[0.04]">
+            <p className="eyebrow text-white/40 mb-6">project. ethos</p>
+            <p className="text-white text-2xl font-semibold leading-snug tracking-[-0.01em]">
+              Health is a disciplined pursuit,<br />practiced daily with intention.
             </p>
-          </motion.div>
-          <motion.div className="card p-6 border-white/10 grid grid-cols-3 gap-4 text-center" variants={fadeInUp}>
-            <Stat value={1} label="Personalized Program" />
-            <Stat value={1} label="1:1 Check-In" />
-            <Stat value="Ongoing" label="Support" />
-          </motion.div>
+            <div className="mt-8 pt-8 border-t border-white/[0.08] grid grid-cols-3 gap-4 text-center">
+              <div>
+                <div className="text-white font-semibold text-lg">1:1</div>
+                <div className="eyebrow text-white/40 mt-1">Coaching</div>
+              </div>
+              <div>
+                <div className="text-white font-semibold text-lg">Weekly</div>
+                <div className="eyebrow text-white/40 mt-1">Check-ins</div>
+              </div>
+              <div>
+                <div className="text-white font-semibold text-lg">24/7</div>
+                <div className="eyebrow text-white/40 mt-1">Support</div>
+              </div>
+            </div>
+          </div>
         </motion.div>
       </div>
     </section>
-  );
-}
-
-type StatProps = {
-  value: number | string;
-  label: string;
-};
-
-function Stat({ value, label }: StatProps) {
-  return (
-    <motion.div
-      className="flex flex-col items-center"
-      whileHover={{ scale: 1.08 }}
-      transition={{ type: 'spring', stiffness: 200, damping: 12 }}
-    >
-      <div className="stat-value">{value}</div>
-      <div className="stat-label">{label}</div>
-    </motion.div>
   );
 }

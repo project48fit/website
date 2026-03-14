@@ -4,7 +4,6 @@ import NewsletterForm from './NewsletterForm';
 const NAV_LINKS = [
   { label: 'About', href: '/about' },
   { label: 'Pricing', href: '/coaching' },
-  { label: 'Resources', href: '/resources' },
   { label: 'Apply', href: '/apply' }
 ];
 

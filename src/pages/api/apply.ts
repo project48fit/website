@@ -9,7 +9,7 @@ type ApplyRequestBody = {
   phone?: string;
   primary_goal?: string;
   training_days_per_week?: string;
-  consult_availability?: string;
+  program?: string;
   start_timeframe?: string;
   goals_detail?: string;
   company_website?: string;
@@ -69,7 +69,7 @@ async function notifyCoaches(payload: ApplyRequestBody, leadId: string) {
     `Phone: ${payload.phone ?? ''}`,
     `Primary goal: ${payload.primary_goal ?? ''}`,
     `Training days/week: ${payload.training_days_per_week ?? ''}`,
-    `Consult availability: ${payload.consult_availability ?? ''}`,
+    `Program: ${payload.program ?? ''}`,
     `Start timeframe: ${payload.start_timeframe ?? ''}`,
     `Goals detail: ${payload.goals_detail ?? ''}`,
     '',
@@ -232,7 +232,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     phone,
     primary_goal,
     training_days_per_week,
-    consult_availability,
     start_timeframe,
     company_website,
     li_fat_id
@@ -249,7 +248,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     !phone ||
     !primary_goal ||
     !training_days_per_week ||
-    !consult_availability ||
     !start_timeframe
   ) {
     res.status(400).json({ error: 'Missing required fields.' });
@@ -267,7 +265,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           phone: body.phone,
           primary_goal: body.primary_goal,
           training_days_per_week: body.training_days_per_week,
-          consult_availability: body.consult_availability,
+          program: body.program ?? null,
           start_timeframe: body.start_timeframe,
           goals_detail: body.goals_detail ?? null,
           utm_source: body.utm_source ?? null,

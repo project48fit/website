@@ -134,7 +134,8 @@ export default function ReportPage() {
   const [trainerizeData, setTrainerizeData] = useState<TrainerizeData | null>(null);
 
   const [recipients, setRecipients] = useState('coach@projectfitness.co');
-  const [sendStatus, setSendStatus] = useState<'idle' | 'sent'>('idle');
+  const [sendStatus, setSendStatus] = useState<'idle' | 'loading' | 'sent' | 'error'>('idle');
+  const [sendError, setSendError] = useState('');
 
   async function fetchStripe() {
     setFetchStatus('loading');
@@ -185,7 +186,10 @@ export default function ReportPage() {
     if (file) processFile(file);
   }
 
-  function handleSend() {
+  async function handleSend() {
+    setSendStatus('loading');
+    setSendError('');
+
     const now = new Date();
     const month = now.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
     const subject = `Project. Monthly Financial Report — ${month}`;
@@ -211,11 +215,20 @@ export default function ReportPage() {
     }
 
     const emails = recipients.split(',').map(e => e.trim()).filter(Boolean);
-    console.log('Monthly report:', { subject, body: lines.join('\n'), recipients: emails });
 
-    const mailto = `mailto:${emails.join(',')}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(lines.join('\n'))}`;
-    window.location.href = mailto;
-    setSendStatus('sent');
+    try {
+      const res = await fetch('/api/send-report', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ recipients: emails, subject, text: lines.join('\n') })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error((data as { error?: string }).error ?? 'Send failed');
+      setSendStatus('sent');
+    } catch (err) {
+      setSendError(err instanceof Error ? err.message : 'Unknown error');
+      setSendStatus('error');
+    }
   }
 
   const scheduledSend = nextFirstMonday();
@@ -362,8 +375,12 @@ export default function ReportPage() {
                 />
               </label>
               <div className="flex items-center gap-4">
-                <button className="btn-primary" onClick={handleSend}>
-                  Send Report
+                <button
+                  className="btn-primary disabled:opacity-60 disabled:cursor-not-allowed"
+                  onClick={handleSend}
+                  disabled={sendStatus === 'loading' || sendStatus === 'sent'}
+                >
+                  {sendStatus === 'loading' ? 'Sending…' : sendStatus === 'sent' ? 'Sent' : 'Send Report'}
                 </button>
                 <button className="btn-secondary" onClick={() => setStep(2)}>
                   Back
@@ -371,8 +388,11 @@ export default function ReportPage() {
               </div>
               {sendStatus === 'sent' && (
                 <p className="text-sm uppercase tracking-[0.2em] text-brand-accent">
-                  Email client opened.
+                  Report sent successfully.
                 </p>
+              )}
+              {sendStatus === 'error' && (
+                <p className="text-sm uppercase tracking-[0.2em] text-red-400">{sendError}</p>
               )}
               <p className="text-xs text-white/30 uppercase tracking-[0.15em]">
                 Next scheduled send: {scheduledSend}

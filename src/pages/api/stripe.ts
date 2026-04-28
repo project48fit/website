@@ -48,21 +48,15 @@ export default async function handler(
       'created[gte]': String(firstOfMonthTs),
       limit: '100'
     });
-    const churnParams = new URLSearchParams({
-      status: 'canceled',
-      'canceled_at[gte]': String(firstOfLastMonthTs),
-      'canceled_at[lte]': String(firstOfMonthTs),
-      limit: '100'
-    });
 
     const [activeSubs, charges, churnedSubs] = await Promise.all([
       stripeGet('/v1/subscriptions?status=active&limit=100', apiKey),
       stripeGet(`/v1/charges?${chargesParams}`, apiKey),
-      stripeGet(`/v1/subscriptions?${churnParams}`, apiKey)
+      stripeGet('/v1/subscriptions?status=canceled&limit=100', apiKey)
     ]) as [
       { data: Array<{ items?: { data?: Array<{ price?: { unit_amount?: number; recurring?: { interval?: string; interval_count?: number } } }> } }> },
       { data: Array<{ status: string; refunded: boolean; amount: number }> },
-      { data: unknown[] }
+      { data: Array<{ canceled_at: number | null }> }
     ];
 
     let mrr = 0;
@@ -93,7 +87,11 @@ export default async function handler(
       mrr: Math.round(mrr * 100) / 100,
       totalRev: Math.round(totalRev * 100) / 100,
       failedPayments,
-      churnedCount: (churnedSubs.data ?? []).length,
+      churnedCount: (churnedSubs.data ?? []).filter(s =>
+        s.canceled_at != null &&
+        s.canceled_at >= firstOfLastMonthTs &&
+        s.canceled_at < firstOfMonthTs
+      ).length,
       activeSubscriptions: (activeSubs.data ?? []).length
     });
   } catch (err) {

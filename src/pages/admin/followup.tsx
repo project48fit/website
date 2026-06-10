@@ -25,6 +25,43 @@ export default function FollowupAdminPage() {
   const pollCount = useRef(0);
   const pollTimer = useRef<NodeJS.Timeout | null>(null);
 
+  const [bookedEmail, setBookedEmail] = useState('');
+  const [bookedStatus, setBookedStatus] = useState<'idle' | 'loading' | 'success' | 'already' | 'error'>('idle');
+  const [bookedMessage, setBookedMessage] = useState('');
+
+  const handleMarkBooked = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setBookedStatus('loading');
+    setBookedMessage('');
+    try {
+      const res = await fetch('/api/admin/mark-booked', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token ? { 'x-admin-token': token } : {}),
+        },
+        body: JSON.stringify({ email: bookedEmail }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        setBookedStatus('error');
+        setBookedMessage((data as { error?: string })?.error ?? 'Something went wrong.');
+        return;
+      }
+      if ((data as { already_booked?: boolean }).already_booked) {
+        setBookedStatus('already');
+        setBookedMessage('Already marked as booked.');
+        return;
+      }
+      setBookedStatus('success');
+      setBookedMessage('Marked as booked. Nurture emails cancelled.');
+      setBookedEmail('');
+    } catch {
+      setBookedStatus('error');
+      setBookedMessage('Request failed. Check connection.');
+    }
+  };
+
   const requestDraft = useCallback(async (payload: Record<string, unknown>) => {
     const response = await fetch('/api/parallel/followup', {
       method: 'POST',
@@ -176,6 +213,46 @@ export default function FollowupAdminPage() {
           {message && (
             <p className={`text-sm uppercase tracking-[0.2em] ${status === 'error' ? 'text-red-400' : 'text-brand-accent'}`}>
               {message}
+            </p>
+          )}
+        </form>
+
+        <form onSubmit={handleMarkBooked} className="card border border-white/10 bg-brand-surface/80 p-8 space-y-6">
+          <div>
+            <p className="eyebrow text-brand-accent">Booking</p>
+            <h2 className="h3 text-white mt-2">Mark as Booked</h2>
+            <p className="p mt-2">
+              When a lead books a call, enter their email to stop the nurture sequence and log the booking.
+            </p>
+          </div>
+
+          <label className="form-label">
+            Lead Email
+            <input
+              type="email"
+              value={bookedEmail}
+              onChange={(e) => setBookedEmail(e.target.value)}
+              placeholder="lead@email.com"
+              required
+              className="form-input"
+            />
+          </label>
+
+          <button
+            type="submit"
+            disabled={bookedStatus === 'loading'}
+            className="btn-primary disabled:opacity-60 disabled:cursor-not-allowed"
+          >
+            {bookedStatus === 'loading' ? 'Marking…' : 'Mark as Booked'}
+          </button>
+
+          {bookedMessage && (
+            <p className={`text-sm uppercase tracking-[0.2em] ${
+              bookedStatus === 'error' ? 'text-red-400' :
+              bookedStatus === 'already' ? 'text-white/50' :
+              'text-brand-accent'
+            }`}>
+              {bookedMessage}
             </p>
           )}
         </form>

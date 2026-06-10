@@ -87,6 +87,14 @@ Deno.serve(async (req: Request) => {
       })
     )
   }
+  if (lead.resend_email_4_id) {
+    cancels.push(
+      fetch(`${RESEND_API}/emails/${lead.resend_email_4_id}/cancel`, {
+        method: 'POST',
+        headers: resendHeaders
+      })
+    )
+  }
 
   const cancelResults = await Promise.allSettled(cancels)
   cancelResults.forEach((result, i) => {

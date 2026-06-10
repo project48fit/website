@@ -16,7 +16,7 @@
  */
 
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
-import { applicationEmail, socialProofEmail, objectionEmail } from '../_shared/templates.ts'
+import { applicationEmail, socialProofEmail, objectionEmail, closeEmail } from '../_shared/templates.ts'
 
 const RESEND_API = 'https://api.resend.com'
 
@@ -163,11 +163,38 @@ Deno.serve(async (req: Request) => {
     console.error('Email-3 error', err)
   }
 
-  // 5. Store Resend IDs back to leads table so we can cancel later
+  // 5. Schedule email-4 (close) for +7 days
+  let email4Id: string | null = null
+  try {
+    const scheduledAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString()
+    const res = await fetch(`${RESEND_API}/emails`, {
+      method: 'POST',
+      headers: resendHeaders,
+      body: JSON.stringify({
+        from: fromEmail,
+        to: [email],
+        subject: 'Still interested in coaching?',
+        html: closeEmail(firstName),
+        scheduled_at: scheduledAt,
+        tags: [{ name: 'category', value: 'close' }]
+      })
+    })
+    if (res.ok) {
+      const data = await res.json()
+      email4Id = data?.id ?? null
+    } else {
+      console.error('Email-4 schedule failed', await res.text())
+    }
+  } catch (err) {
+    console.error('Email-4 error', err)
+  }
+
+  // 6. Store Resend IDs back to leads table so we can cancel later
   const updates: Record<string, string> = {}
   if (contactId) updates.resend_contact_id = contactId
   if (email2Id) updates.resend_email_2_id = email2Id
   if (email3Id) updates.resend_email_3_id = email3Id
+  if (email4Id) updates.resend_email_4_id = email4Id
 
   if (Object.keys(updates).length > 0) {
     const { error } = await supabase.from('leads').update(updates).eq('id', leadId)
